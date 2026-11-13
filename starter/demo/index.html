@@ -3,151 +3,404 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Day 06 · Data Ingestion Demo</title>
+<title>Day 06 · Giải thích bài làm theo rubric</title>
 <style>
   :root {
-    --bg: #f6f7f9; --card: #ffffff; --ink: #1d2433; --muted: #5b6475;
-    --line: #dfe3ea; --accent: #2456d6; --ok: #1f7a4d; --bad: #b42318; --warn: #8a5a00;
-    --chip: #eef2ff;
+    --bg: #f5f6f8; --card: #ffffff; --ink: #1c2330; --muted: #5a6373;
+    --line: #dde1e8; --accent: #2456d6; --ok: #1f7a4d; --bad: #b42318; --warn: #8a5a00;
+    --chip: #eef2ff; --code: #0f1420; --codeink: #e6ebf5;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #12151c; --card: #1b2030; --ink: #e8ebf2; --muted: #9aa3b5;
-      --line: #2c3448; --accent: #7aa2ff; --ok: #4ade80; --bad: #f87171; --warn: #fbbf24;
-      --chip: #232b44;
+      --bg: #11141b; --card: #1a1f2b; --ink: #e6e9f0; --muted: #98a1b3;
+      --line: #2a3144; --accent: #7aa2ff; --ok: #4ade80; --bad: #f87171; --warn: #fbbf24;
+      --chip: #222a42; --code: #0a0d14; --codeink: #d6dcea;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #12151c; --card: #1b2030; --ink: #e8ebf2; --muted: #9aa3b5;
-    --line: #2c3448; --accent: #7aa2ff; --ok: #4ade80; --bad: #f87171; --warn: #fbbf24;
-    --chip: #232b44;
+    --bg: #11141b; --card: #1a1f2b; --ink: #e6e9f0; --muted: #98a1b3;
+    --line: #2a3144; --accent: #7aa2ff; --ok: #4ade80; --bad: #f87171; --warn: #fbbf24;
+    --chip: #222a42; --code: #0a0d14; --codeink: #d6dcea;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; font: 15px/1.5 system-ui, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); }
-  header { padding: 20px 16px 8px; max-width: 1100px; margin: 0 auto; }
-  h1 { font-size: 22px; margin: 0 0 4px; }
-  .sub { color: var(--muted); margin: 0; }
-  nav { display: flex; gap: 8px; flex-wrap: wrap; padding: 12px 16px; max-width: 1100px; margin: 0 auto; }
-  nav button { border: 1px solid var(--line); background: var(--card); color: var(--ink); padding: 8px 14px; border-radius: 999px; cursor: pointer; font: inherit; }
-  nav button[aria-selected="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
-  main { max-width: 1100px; margin: 0 auto; padding: 8px 16px 40px; }
-  section[hidden] { display: none; }
-  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
-  .stat { font-size: 26px; font-weight: 650; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font: 15px/1.6 system-ui, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); }
+  .layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+  aside { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: var(--card); border-right: 1px solid var(--line); padding: 18px 14px; }
+  aside h1 { font-size: 15px; margin: 0 0 4px; }
+  aside .sub { color: var(--muted); font-size: 12px; margin-bottom: 14px; }
+  aside a { display: block; color: var(--ink); text-decoration: none; padding: 7px 10px; border-radius: 8px; font-size: 14px; }
+  aside a:hover { background: var(--chip); }
+  aside a .pts { float: right; color: var(--muted); font-size: 12px; }
+  main { padding: 22px 28px 60px; max-width: 1040px; min-width: 0; }
+  .layout > * { min-width: 0; }
+  section { margin-bottom: 44px; scroll-margin-top: 12px; }
+  h2 { font-size: 22px; margin: 0 0 6px; }
+  h3 { font-size: 16px; margin: 22px 0 6px; }
+  h4 { font-size: 14px; margin: 14px 0 4px; }
+  .lead { color: var(--muted); margin: 0 0 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; margin: 10px 0; }
+  .grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+  .stat { font-size: 24px; font-weight: 650; }
   .label { color: var(--muted); font-size: 13px; }
-  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; }
-  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14px; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; margin: 8px 0; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14px; }
   th { color: var(--muted); font-weight: 600; background: var(--chip); }
   .scroll { overflow-x: auto; }
   .chip { display: inline-block; padding: 2px 9px; border-radius: 999px; background: var(--chip); font-size: 13px; margin: 2px 4px 2px 0; }
   .ok { color: var(--ok); font-weight: 600; }
   .bad { color: var(--bad); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
   .muted { color: var(--muted); }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: 13px; background: var(--chip); padding: 1px 5px; border-radius: 5px; }
+  pre { background: var(--code); color: var(--codeink); padding: 12px 14px; border-radius: 10px; overflow-x: auto; font: 13px/1.5 ui-monospace, Consolas, monospace; white-space: pre; margin: 8px 0; }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; margin: 8px 0; padding: 8px 14px; }
+  summary { cursor: pointer; font-weight: 600; padding: 4px 0; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 10px 0; }
+  .step { background: var(--card); border: 1px solid var(--accent); color: var(--ink); border-radius: 8px; padding: 7px 10px; font-size: 13px; }
+  .arrow { color: var(--accent); font-weight: 700; }
+  .rubric td:nth-child(2), .rubric th:nth-child(2) { text-align: right; white-space: nowrap; }
+  .hitcard { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; margin: 8px 0; white-space: pre-wrap; font-size: 14px; }
+  .hitcard .meta { color: var(--muted); font-size: 13px; margin-bottom: 4px; white-space: normal; }
   .hit { border-left: 4px solid var(--ok); }
   .miss { border-left: 4px solid var(--line); }
-  .hitcard { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin: 10px 0; white-space: pre-wrap; }
-  .hitcard .meta { color: var(--muted); font-size: 13px; margin-bottom: 6px; white-space: normal; }
-  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: end; margin: 8px 0 14px; }
-  label { display: flex; flex-direction: column; font-size: 13px; color: var(--muted); gap: 4px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: end; margin: 8px 0 12px; }
+  label.f { display: flex; flex-direction: column; font-size: 13px; color: var(--muted); gap: 4px; }
   select, input, textarea { font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--ink); }
-  textarea { width: 100%; min-height: 70px; }
+  textarea { width: 100%; min-height: 64px; }
   button.primary { background: var(--accent); color: #fff; border: 0; padding: 9px 16px; border-radius: 8px; cursor: pointer; font: inherit; }
-  button.ghost { background: transparent; color: var(--accent); border: 1px solid var(--line); padding: 6px 10px; border-radius: 8px; cursor: pointer; font: inherit; }
-  .qlist { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-  .status { color: var(--muted); min-height: 22px; }
+  button.ghost { background: transparent; color: var(--accent); border: 1px solid var(--line); padding: 6px 10px; border-radius: 8px; cursor: pointer; font: inherit; margin: 3px; }
+  .status { color: var(--muted); min-height: 22px; font-size: 14px; }
   .error { color: var(--bad); white-space: pre-wrap; }
-  details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; margin: 8px 0; padding: 10px 14px; }
-  summary { cursor: pointer; font-weight: 600; }
-  @media (max-width: 600px) { h1 { font-size: 19px; } .stat { font-size: 22px; } }
+  .note { border-left: 4px solid var(--warn); padding: 8px 12px; background: var(--card); border-radius: 8px; margin: 10px 0; font-size: 14px; }
+  .formula { font-family: ui-monospace, Consolas, monospace; background: var(--chip); padding: 8px 12px; border-radius: 8px; display: block; margin: 6px 0; font-size: 14px; }
+  @media (max-width: 820px) {
+    .layout { grid-template-columns: 1fr; }
+    aside { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+    main { padding: 16px; }
+  }
 </style>
 </head>
 <body>
-<header>
-  <h1>Day 06 · Data Ingestion và Retrieval</h1>
-  <p class="sub">Luật 91/2025/QH15 và Nghị định 13/2023/NĐ-CP · so sánh 3 cấu hình trên cùng corpus, model và benchmark</p>
-</header>
-<nav role="tablist">
-  <button role="tab" data-tab="overview" aria-selected="true">Tổng quan</button>
-  <button role="tab" data-tab="search" aria-selected="false">Tra cứu thử</button>
-  <button role="tab" data-tab="traces" aria-selected="false">Câu hỏi và trace</button>
-  <button role="tab" data-tab="audit" aria-selected="false">Nhãn chấm tay</button>
-</nav>
+<div class="layout">
+<aside>
+  <h1>Day 06 · Data Ingestion</h1>
+  <div class="sub">Trình bày bài làm theo 5 hạng mục rubric, kèm cơ chế và mã nguồn thật.</div>
+  <a href="#tong-quan">0. Luồng xử lý</a>
+  <a href="#corpus">1. Corpus và xử lý <span class="pts">20</span></a>
+  <a href="#chien-luoc">2. Ba chiến lược và lưu trữ <span class="pts">20</span></a>
+  <a href="#benchmark">3. Benchmark và retrieval <span class="pts">20</span></a>
+  <a href="#nam-khia-canh">4. Năm khía cạnh phân tích <span class="pts">25</span></a>
+  <a href="#tai-lap">5. Tái lập và báo cáo <span class="pts">15</span></a>
+  <a href="#docker-sql">Docker và SQL: không dùng, vì sao</a>
+  <a href="#tra-cuu">Tra cứu thử trực tiếp</a>
+  <a href="#trace">Trace từng câu hỏi</a>
+</aside>
 
 <main>
-  <!-- Tổng quan -->
-  <section id="overview">
-    <div class="grid" id="stats"></div>
-    <h2>Kết quả truy xuất</h2>
-    <p class="muted">Hit@1 và Evidence Hit@3 trên 15 câu dev và 5 câu test. Chọn cấu hình trên dev, theo tiêu chí đã chốt trước khi chạy test.</p>
-    <div class="scroll"><table id="results"></table></div>
-    <h2>Nguồn và cấu hình</h2>
-    <div class="scroll"><table id="sources"></table></div>
-    <p class="status" id="overview-status"></p>
-  </section>
 
-  <!-- Tra cứu thử -->
-  <section id="search" hidden>
-    <p class="muted">Gõ câu hỏi hoặc chọn một câu mẫu. Với cấu hình C, filter chỉ được áp khi anh chọn; đây là điều kiện do người dùng cung cấp, không lấy từ đáp án.</p>
-    <div class="qlist" id="samples"></div>
-    <textarea id="q" placeholder="Ví dụ: Mức phạt tối đa đối với mua bán dữ liệu cá nhân là bao nhiêu?"></textarea>
+<!-- 0. LUỒNG -->
+<section id="tong-quan">
+  <h2>0. Luồng xử lý của bài làm</h2>
+  <p class="lead">Bài làm trả lời một câu hỏi: nếu chuẩn bị dữ liệu khác nhau, khả năng tìm đúng bằng chứng cho agent có khác không, và đo bằng cách nào.</p>
+  <div class="flow">
+    <span class="step">PDF nguồn<br><span class="muted">SHA-256 khớp</span></span><span class="arrow">→</span>
+    <span class="step">ingestion.load_pdf<br><span class="muted">theo trang vật lý</span></span><span class="arrow">→</span>
+    <span class="step">normalize_text<br><span class="muted">NFC, bỏ header</span></span><span class="arrow">→</span>
+    <span class="step">chunking<br><span class="muted">A: ký tự · B/C: Điều</span></span><span class="arrow">→</span>
+    <span class="step">MyEmbedder<br><span class="muted">E5, passage:</span></span><span class="arrow">→</span>
+    <span class="step">ChromaStore<br><span class="muted">cosine, upsert ID ổn định</span></span><span class="arrow">→</span>
+    <span class="step">search top-3<br><span class="muted">filter whitelist</span></span><span class="arrow">→</span>
+    <span class="step">evaluate_query<br><span class="muted">Hit@1 / Hit@3</span></span><span class="arrow">→</span>
+    <span class="step">audit CSV<br><span class="muted">chấm tay 0/1/2</span></span>
+  </div>
+  <div class="card">
+    <h4>Cơ chế cốt lõi</h4>
+    <p>Mọi bước đều có một <b>khóa truy vết</b>: mỗi chunk mang <code>document_id</code>, <code>source</code>, <code>page</code> và <code>pages</code>; nhờ đó kết quả truy xuất luôn đối chiếu lại được với trang PDF gốc. Benchmark được tách dev/test và commit trước khi chạy, nên lựa chọn cấu hình không dựa trên test.</p>
+  </div>
+</section>
+
+<!-- 1. CORPUS -->
+<section id="corpus">
+  <h2>1. Corpus và xử lý dữ liệu <span class="muted" style="font-size:15px">· 20 điểm</span></h2>
+  <div class="scroll"><table class="rubric">
+    <tr><th>Tiêu chí</th><th>Điểm</th><th>Bằng chứng trong repo</th></tr>
+    <tr><td>≥30 trang nội dung hợp lệ, manifest và giấy phép</td><td>8</td><td><code>data/sources.json</code>, <code>data/manifest.json</code></td></tr>
+    <tr><td>Đọc, chuẩn hóa, ghi lỗi, truy vết nguồn</td><td>12</td><td><code>results/ingestion_log.json</code>, mục code <i>ingestion</i> bên dưới</td></tr>
+  </table></div>
+  <div class="grid" id="corpus-stats"></div>
+
+  <h3>Cơ chế đọc và chuẩn hóa</h3>
+  <div class="card">
+    <ol>
+      <li><b>Kiểm tra toàn vẹn trước khi đọc.</b> <code>load_corpus</code> tính SHA-256 từng file và dừng nếu khác bản đã khai báo. Đây là cách biết chắc đúng phiên bản văn bản.</li>
+      <li><b>Trích theo trang vật lý.</b> <code>fitz.open(...)</code> và <code>get_text("text")</code> cho từng trang. <code>page</code> là số trang trong file PDF, không phải số trang in trên Công báo, nên có thể mở đúng trang để kiểm chứng.</li>
+      <li><b>Chuẩn hóa.</b> NFC để thống nhất dấu tiếng Việt; bỏ khoảng trắng thừa; loại dòng tiêu đề chạy <code>CÔNG BÁO/Số …</code> bằng regex; loại dòng chữ ký số; nối các dòng bị ngắt do dàn trang, <b>trừ khi</b> dòng mới mở đầu một đơn vị cấu trúc (Chương, Mục, Điều, số khoản, điểm) hoặc dòng trước đã kết thúc bằng dấu câu.</li>
+      <li><b>Phân loại trang.</b> Mỗi trang được ghi một trạng thái: <code>ok</code>, <code>empty</code> (không có text, cần OCR), <code>too_short</code> (dưới 200 ký tự) hoặc <code>error</code>. Phụ lục biểu mẫu được đánh dấu <code>phu_luc</code> từ trang chỉ định trong <code>sources.json</code>.</li>
+    </ol>
+    <p class="muted">Trạng thái từng trang được ghi vào <code>results/ingestion_log.json</code>, nên mọi trang bị loại đều có lý do.</p>
+  </div>
+
+  <h3>Quy tắc tính trang nội dung</h3>
+  <div class="card">
+    <span class="formula">trang nội dung = section == "noi_dung"  ∧  status == "ok"  ∧  chars ≥ 200</span>
+    <p>Phụ lục biểu mẫu của Nghị định (trang 30–37) vẫn được index để có thể truy được, nhưng <b>không tính</b> vào số trang nội dung. Với yêu cầu tối thiểu 30 trang, Luật và Nghị định cho <b>54 trang</b>, nên vẫn đạt mà không phải đếm phụ lục.</p>
+  </div>
+
+  <h3>Giới hạn trung thực</h3>
+  <div class="note">
+    Không OCR: chỉ đọc lớp text có sẵn. Phụ lục biểu mẫu là text có dấu chấm và gạch, nên bố cục không được giữ đúng. Thuộc tính <code>chapter</code> của trang được lấy theo đầu trang, nên một trang có nhiều Chương sẽ mang nhãn Chương đầu tiên.
+  </div>
+
+  <h3>Mã nguồn</h3>
+  <details class="code" data-module="ingestion"><summary>starter/src/ingestion.py — normalize_text, load_pdf</summary><div class="body"></div></details>
+  <details class="code" data-module="models"><summary>starter/src/models.py — DocumentPage, Chunk (đường truy vết)</summary><div class="body"></div></details>
+</section>
+
+<!-- 2. CHIẾN LƯỢC -->
+<section id="chien-luoc">
+  <h2>2. Ba chiến lược và lưu trữ <span class="muted" style="font-size:15px">· 20 điểm</span></h2>
+  <div class="scroll"><table class="rubric">
+    <tr><th>Tiêu chí</th><th>Điểm</th><th>Bằng chứng trong repo</th></tr>
+    <tr><td>Ba cấu hình chạy được, ghi tham số</td><td>8</td><td><code>starter/config.json</code>, <code>results/ingest_stats.json</code></td></tr>
+    <tr><td>So sánh có kiểm soát: mỗi lần chỉ đổi một yếu tố</td><td>6</td><td>Bảng dưới và mục <i>chunking</i>, <i>run</i></td></tr>
+    <tr><td>Embedding thật, vector store, metadata filter, nạp lại không trùng</td><td>6</td><td><code>results/reingest_log.jsonl</code>, mục <i>embeddings</i>, <i>store</i></td></tr>
+  </table></div>
+
+  <h3>Ba cấu hình</h3>
+  <div class="scroll"><table id="strategy-table"></table></div>
+  <div class="note"><b>Khác biệt có kiểm soát.</b> B và C dùng chung một chỉ mục, nên khác biệt B–C chỉ nằm ở bước truy vấn: C thêm filter khi câu hỏi có filter. A–B thay chunking, nhưng B cũng mang thêm <code>article</code> và <code>chapter</code> trong metadata, nên so sánh A–B chưa hoàn toàn thuần túy; báo cáo đã nêu rõ.</div>
+
+  <h3>Cơ chế chunking</h3>
+  <div class="card">
+    <ul>
+      <li><b>A — cửa sổ ký tự.</b> Cắt <code>[i, i+500)</code> với bước <code>500−50 = 450</code>, trong <i>từng trang</i>, nên chunk không bao giờ vượt ranh giới trang. Hệ quả: câu có thể bị cắt ngang.</li>
+      <li><b>B — theo Điều.</b> Mỗi Điều là một đơn vị. Nếu Điều vượt 1000 ký tự, <code>_pack</code> chia tiếp theo ranh giới khoản/điểm; phần sau lặp lại tên Điều với nhãn <i>(tiếp)</i> để chunk tự đứng được. Đoạn bị ngắt qua trang được nối lại trước khi chia.</li>
+      <li><b>Chương/Mục</b> được gắn vào Điều kế tiếp, không thành chunk riêng.</li>
+    </ul>
+  </div>
+  <div class="scroll"><table id="chunk-table"></table></div>
+
+  <h3>Cơ chế embedding và vector store</h3>
+  <div class="card">
+    <ul>
+      <li><b>Model:</b> <code>intfloat/multilingual-e5-small</code>, 384 chiều, chạy local. E5 yêu cầu tiền tố: <code>passage: </code> khi index và <code>query: </code> khi truy vấn. Thiếu tiền tố làm chất lượng truy xuất giảm, nên đây là điều kiện bắt buộc của model.</li>
+      <li><b>Chuẩn hóa L2</b> để cosine bằng tích vô hướng:</li>
+    </ul>
+    <span class="formula">cos(q, d) = q·d / (‖q‖‖d‖) = q·d    khi ‖q‖ = ‖d‖ = 1</span>
+    <ul>
+      <li><b>Giới hạn token:</b> mỗi chunk được kiểm tra không vượt 512 token; kết quả: 0 chunk vượt giới hạn ở cả hai chỉ mục.</li>
+      <li><b>Chroma PersistentClient</b>: mỗi chỉ mục một collection (<code>day06_fixed</code>, <code>day06_struct</code>), metric <code>hnsw:space = cosine</code>. Collection lưu cả tên model và số chiều; nếu lần sau dùng model khác, hệ thống báo lỗi thay vì trộn vector không tương thích.</li>
+      <li><b>ID ổn định</b> dạng <code>doc:cấu-hình:trang:thứ-tự</code>. Vì ID không đổi khi nạp lại, <code>upsert</code> ghi đè thay vì thêm mới; chunk cũ không còn trong lần nạp được xóa.</li>
+      <li><b>Filter</b> chỉ cho phép các trường nằm trong danh sách trắng (<code>document_type, year, section, chapter, article, document_id</code>). Giá trị đi qua tham số <code>where</code>, không ghép vào chuỗi truy vấn.</li>
+    </ul>
+  </div>
+  <h4>Chứng minh nạp lại không nhân đôi</h4>
+  <div class="scroll"><table id="reingest-table"></table></div>
+
+  <h3>Mã nguồn</h3>
+  <details class="code" data-module="chunking"><summary>starter/src/chunking.py — fixed_size, by_article, _pack, _split_long</summary><div class="body"></div></details>
+  <details class="code" data-module="embeddings"><summary>starter/src/embeddings.py — MyEmbedder</summary><div class="body"></div></details>
+  <details class="code" data-module="store"><summary>starter/src/store.py — ChromaStore (_collection, upsert, search)</summary><div class="body"></div></details>
+  <details class="code" data-module="run"><summary>starter/src/run.py — cmd_ingest, cmd_eval, coherence_positions, cmd_audit_*</summary><div class="body"></div></details>
+</section>
+
+<!-- 3. BENCHMARK -->
+<section id="benchmark">
+  <h2>3. Benchmark và retrieval <span class="muted" style="font-size:15px">· 20 điểm</span></h2>
+  <div class="scroll"><table class="rubric">
+    <tr><th>Tiêu chí</th><th>Điểm</th><th>Bằng chứng trong repo</th></tr>
+    <tr><td>≥20 câu có evidence, có câu kiểm tra filter, tách dev/test trước thử nghiệm</td><td>10</td><td><code>benchmark/questions.jsonl</code>, <code>make_split.py</code>, commit <code>2c3cf10</code>, <code>results/benchmark_validation.json</code></td></tr>
+    <tr><td>Trace, Hit@1/Hit@3 đúng, chạy đủ ba cấu hình</td><td>10</td><td><code>results/trace_*.jsonl</code>, <code>metrics_*.json</code>, mục <i>evaluation</i></td></tr>
+  </table></div>
+
+  <h3>Bộ câu hỏi</h3>
+  <div class="card">
+    <p>Mỗi câu có: <code>id</code>, <code>split</code>, <code>question</code>, <code>expected_answer</code>, <code>gold_source_id</code>, <code>gold_page</code>, <code>evidence_quote</code>, và tùy chọn <code>alt_gold</code> (nguồn thay thế hợp lệ), <code>filter</code>, <code>filter_context</code>.</p>
+    <p><b>Tách dev/test:</b> seed cố định <code>20261113</code>; lấy mẫu phân tầng theo việc câu có filter hay không (2 câu test có filter, 3 câu test không filter). Kết quả: 15 dev, 5 test, test gồm q03, q06, q14, q15, q16. Phép tách được chạy một lần, trước mọi lần truy xuất.</p>
+    <p><b>Kiểm chứng evidence:</b> <code>validate</code> kiểm tra rằng nguyên văn <code>evidence_quote</code> xuất hiện trong trang gold sau chuẩn hóa. Câu hỏi không được chứa nguyên văn đáp án. Kết quả: 20/20 câu đạt.</p>
+    <p class="muted">Câu hỏi được đưa vào query đầy đủ, nhưng <code>expected_answer</code> và <code>gold_*</code> không bao giờ đi vào query hay filter.</p>
+  </div>
+  <div class="card" id="questions-sample"></div>
+
+  <h3>Định nghĩa Hit</h3>
+  <div class="card">
+    <p>Một chunk được tính là <b>hit</b> khi thỏa <i>cả hai</i> điều kiện:</p>
+    <span class="formula">hit(c) = (c.document_id == gold.source) ∧ (gold.page ∈ pages(c)) ∧ (squash(evidence) ⊆ squash(text(c)))</span>
+    <ul>
+      <li><code>pages(c)</code> là tập trang mà chunk phủ, không chỉ trang đầu. Chunk qua hai trang vẫn được tính nếu trang gold nằm trong đó.</li>
+      <li><code>squash</code> thu gọn mọi khoảng trắng và xuống dòng, nên khác biệt định dạng không làm mất hit.</li>
+      <li><b>Hit@k</b> = có ít nhất một hit trong k kết quả đầu tiên. Định nghĩa này nghiêm ngặt: diễn đạt lại không khớp chuỗi sẽ bị tính là trượt. Đây là giới hạn lớn nhất của phép đo tự động, nên báo cáo dùng nhãn grounding chấm tay để bổ sung.</li>
+    </ul>
+    <h4>Phân loại lỗi khi trượt</h4>
+    <table>
+      <tr><th>Loại</th><th>Ý nghĩa</th></tr>
+      <tr><td><code>dung_trang_thieu_evidence</code></td><td>Đúng trang gold nhưng chunk không chứa đủ nguyên văn evidence (chunk bị cắt).</td></tr>
+      <tr><td><code>dung_tai_lieu_sai_trang</code></td><td>Đúng văn bản nhưng sai trang.</td></tr>
+      <tr><td><code>sai_tai_lieu</code></td><td>Trả về văn bản khác, thường là điều khoản gần giống nhau ở văn bản kia.</td></tr>
+    </table>
+  </div>
+
+  <h3>Kết quả</h3>
+  <div class="scroll"><table id="metrics-table"></table></div>
+  <div class="card" id="failure-summary"></div>
+
+  <h3>Cơ chế một lần truy xuất</h3>
+  <div class="flow">
+    <span class="step">question</span><span class="arrow">→</span>
+    <span class="step">embed_query<br><span class="muted">tiền tố query:</span></span><span class="arrow">→</span>
+    <span class="step">store.search<br><span class="muted">where = filter (C, nếu có)</span></span><span class="arrow">→</span>
+    <span class="step">top-3<br><span class="muted">ID, text, score, metadata</span></span><span class="arrow">→</span>
+    <span class="step">evaluate_query<br><span class="muted">so với gold</span></span>
+  </div>
+  <p class="muted">Với top-k, tài liệu so sánh tương đương SQL là: <code>ORDER BY embedding &lt;=&gt; :q LIMIT 3</code> kèm <code>WHERE</code> cho filter. Chroma làm đúng phép này bằng API, không có SQL.</p>
+
+  <h3>Mã nguồn</h3>
+  <details class="code" data-module="evaluation"><summary>starter/src/evaluation.py — squash, _check_hit, evaluate_query, summarize</summary><div class="body"></div></details>
+</section>
+
+<!-- 4. NĂM KHÍA CẠNH -->
+<section id="nam-khia-canh">
+  <h2>4. Năm khía cạnh phân tích <span class="muted" style="font-size:15px">· 25 điểm</span></h2>
+  <div class="scroll"><table class="rubric">
+    <tr><th>Khía cạnh</th><th>Điểm</th><th>Cách đo và bằng chứng</th></tr>
+    <tr><td>1. Retrieval accuracy</td><td>5</td><td>Hit@1, Hit@3 tự động (mục 3)</td></tr>
+    <tr><td>2. Chunk coherence</td><td>5</td><td>10 vị trí cố định, chấm 0/1/2 bằng tay</td></tr>
+    <tr><td>3. Metadata usefulness</td><td>5</td><td>45 bản ghi top-3, chấm 0/1 bằng tay</td></tr>
+    <tr><td>4. Grounding quality</td><td>5</td><td>5 câu test × 3 cấu hình, chấm 0/1/2 bằng tay</td></tr>
+    <tr><td>5. Data strategy impact và trade-off</td><td>5</td><td>So sánh A–B, B–C và đánh đổi, kèm tiêu chí chọn đã chốt</td></tr>
+  </table></div>
+
+  <h3>2. Coherence: quy tắc chọn vị trí</h3>
+  <div class="card">
+    <p>Các trang nội dung được sắp theo (tài liệu, trang), rồi lấy các trang nội dung thứ 3, 8, 13… (vị trí <code>2 + i·⌊54/10⌋</code> trong danh sách 54 trang nội dung). Quy tắc này cố định <b>trước khi xem điểm</b>, nên không chọn trang theo kết quả. Mỗi vị trí lấy 30 ký tự sau điểm giữa trang làm neo, rồi tìm chunk chứa neo đó trong cả hai chỉ mục.</p>
+    <p>Thang điểm: <b>0</b> cắt giữa ý hoặc thiếu chủ thể khiến không hiểu; <b>1</b> hiểu một phần, thiếu ngữ cảnh; <b>2</b> tự hiểu và giữ trọn ý.</p>
+  </div>
+  <div class="scroll"><table id="coherence-table"></table></div>
+
+  <h3>3. Metadata usefulness</h3>
+  <div class="card" id="metadata-card"></div>
+  <div class="note">Quy ước <code>chapter</code>: lấy theo Chương tại <i>đầu</i> chunk. Với hai chunk A ở trang 29 của Nghị định có ranh giới Chương III/IV, tác giả chấm 1 vì chunk bắt đầu trong Chương III; nếu chọn quy ước khác, điểm của A sẽ là 13/15.</div>
+
+  <h3>4. Grounding quality</h3>
+  <div class="card" id="grounding-card"></div>
+  <div class="note">Tác giả chấm 2 cho cả 15 dòng. Thang này có thể dễ dãi, đặc biệt ở q16 cấu hình A và B, nơi top-3 lẫn cả hai văn bản. Báo cáo ghi rõ điều này.</div>
+
+  <h3>5. Tác động của chiến lược và đánh đổi</h3>
+  <div class="card">
+    <table>
+      <tr><th>So sánh</th><th>Thay đổi</th><th>Kết quả chính</th></tr>
+      <tr><td>A → B</td><td>Chunking: ký tự → Điều (+ metadata article/chapter)</td><td>Dev Hit@3 9 → 12; coherence 1,0 → 1,8</td></tr>
+      <tr><td>B → C</td><td>Chỉ thêm filter khi có filter</td><td>Dev Hit@1 8 → 9; test Hit@1 4 → 5; filter được tuân thủ 6/6 câu có filter</td></tr>
+    </table>
+    <p><b>Đánh đổi:</b> B tốn nhiều bước xử lý cấu trúc hơn (phải nối trang, tìm Điều), đổi lại chunk trọn ý hơn. C chỉ hơn B khi filter đúng; filter sai có thể loại chunk đúng, và lỗi này <b>chưa được kiểm thử</b>.</p>
+    <p><b>Tiêu chí chọn cấu hình</b> đã chốt trong <code>benchmark/SELECTION.md</code> trước khi chạy test: Hit@3 dev, rồi Hit@1 dev, rồi số chunk.</p>
+  </div>
+  <div class="note"><b>Sai số mẫu nhỏ:</b> test chỉ 5 câu, dev 15 câu. Một câu thay đổi kết quả 20 điểm phần trăm. Không nên kết luận C tốt nhất tổng quát.</div>
+</section>
+
+<!-- 5. TÁI LẬP -->
+<section id="tai-lap">
+  <h2>5. Tái lập và báo cáo <span class="muted" style="font-size:15px">· 15 điểm</span></h2>
+  <div class="scroll"><table class="rubric">
+    <tr><th>Tiêu chí</th><th>Điểm</th><th>Bằng chứng trong repo</th></tr>
+    <tr><td>Lệnh chạy, model, chi phí, artifacts</td><td>8</td><td><code>README.md</code> mục 2–5, <code>ingest_stats.json</code>, <code>artifacts/experiment_log.csv</code></td></tr>
+    <tr><td>Kết luận, ví dụ lỗi, giới hạn, trình bày</td><td>7</td><td><code>report/individual/2A202603532_LuuThanhMy.md</code></td></tr>
+  </table></div>
+
+  <h3>Phiên bản và chi phí</h3>
+  <div class="scroll"><table id="versions-table"></table></div>
+
+  <h3>Nhật ký thí nghiệm</h3>
+  <div class="scroll"><table id="experiments-table"></table></div>
+  <div class="note">Cột <code>hypothesis</code> được viết <b>sau</b> khi có kết quả, và được ghi chú như vậy trong file. Giả thuyết trước thử nghiệm không được ghi lại.</div>
+
+  <h3>Mã nguồn chạy lệnh</h3>
+  <details class="code" data-module="run"><summary>starter/src/run.py — toàn bộ điều phối pipeline</summary><div class="body"></div></details>
+  <details class="code" data-module="store"><summary>starter/src/store.py — lưu và tìm kiếm</summary><div class="body"></div></details>
+</section>
+
+<!-- DOCKER / SQL -->
+<section id="docker-sql">
+  <h2>Docker và SQL: không dùng trong kết quả, và vì sao</h2>
+  <p class="lead">Starter của lớp đề xuất PostgreSQL + pgvector chạy bằng Docker. Bài làm này <b>không dùng</b> hai thứ đó, và phần này giải thích lý do cùng phương án tương đương.</p>
+  <div class="card">
+    <h4>Quyết định</h4>
+    <ul>
+      <li><b>Chroma (local, PersistentClient)</b> thay cho PostgreSQL + pgvector. Chroma lưu bền vững trên đĩa, có tìm kiếm vector và filter metadata, nên đáp ứng đủ yêu cầu của rubric và không cần máy chủ.</li>
+      <li><b>Không có Dockerfile.</b> Môi trường được tái lập bằng phiên bản ghim trong README và <code>ingest_stats.json</code>. Chưa đóng gói Docker vì bài chạy được trên CPU bằng venv; nếu cần đóng gói, bước đầu sẽ là base image <code>python:3.13</code> và cài đúng các phiên bản đã ghi.</li>
+    </ul>
+  </div>
+  <h3>Tương đương SQL (minh họa, không chạy trong bài)</h3>
+  <pre>-- Schema tương đương nếu dùng pgvector (không tạo trong bài làm)
+CREATE TABLE chunks (
+  chunk_id     TEXT PRIMARY KEY,           -- ID ổn định: doc:cấu-hình:trang:thứ-tự
+  document_id  TEXT NOT NULL,
+  source       TEXT NOT NULL,
+  page         INT  NOT NULL,
+  section      TEXT,                       -- noi_dung | phu_luc
+  year         INT,
+  document_type TEXT,                      -- luat | nghi_dinh
+  embedding    VECTOR(384) NOT NULL,       -- multilingual-e5-small
+  text         TEXT NOT NULL
+);
+CREATE INDEX ON chunks USING hnsw (embedding vector_cosine_ops);
+
+-- Truy vấn tương đương filter C (câu hỏi có year = 2023)
+SELECT chunk_id, text, 1 - (embedding &lt;=&gt; :q) AS score
+FROM chunks
+WHERE year = 2023
+ORDER BY embedding &lt;=&gt; :q
+LIMIT 3;</pre>
+  <p class="muted">Toán tử <code>&lt;=&gt;</code> là khoảng cách cosine của pgvector. <code>1 − khoảng cách</code> cho điểm giống nhau. Chroma tính cùng đại lượng này, còn filter nằm trong tham số <code>where</code>.</p>
+  <h4>File khung của lớp (chưa dùng)</h4>
+  <details data-file="docker-compose.yml"><summary>starter/docker-compose.yml</summary><div class="body"></div></details>
+  <details data-file="init.sql"><summary>starter/init.sql</summary><div class="body"></div></details>
+</section>
+
+<!-- TRA CỨU -->
+<section id="tra-cuu">
+  <h2>Tra cứu thử trực tiếp</h2>
+  <p class="lead">Truy vấn chạy trên chỉ mục thật bằng cùng model và cùng store. Lần đầu có thể lâu vì phải tải model.</p>
+  <div class="card">
+    <div id="samples"></div>
+    <textarea id="q" placeholder="Ví dụ: Hồ sơ đánh giá tác động được cập nhật định kỳ bao lâu một lần?"></textarea>
     <div class="row">
-      <label>Cấu hình
+      <label class="f">Cấu hình
         <select id="strategy">
           <option value="A">A · cố định 500 ký tự</option>
-          <option value="B">B · theo Điều/khoản</option>
+          <option value="B">B · theo Điều</option>
           <option value="C" selected>C · B + filter</option>
         </select>
       </label>
-      <label>Loại văn bản (filter)
-        <select id="f-document_type">
-          <option value="">không lọc</option>
-          <option value="luat">luat</option>
-          <option value="nghi_dinh">nghi_dinh</option>
-        </select>
+      <label class="f">document_type
+        <select id="f-document_type"><option value="">không lọc</option><option value="luat">luat</option><option value="nghi_dinh">nghi_dinh</option></select>
       </label>
-      <label>Năm (filter)
-        <select id="f-year">
-          <option value="">không lọc</option>
-          <option value="2025">2025</option>
-          <option value="2023">2023</option>
-        </select>
+      <label class="f">year
+        <select id="f-year"><option value="">không lọc</option><option value="2025">2025</option><option value="2023">2023</option></select>
       </label>
-      <label>Phạm vi (filter)
-        <select id="f-section">
-          <option value="">không lọc</option>
-          <option value="noi_dung">noi_dung</option>
-          <option value="phu_luc">phu_luc</option>
-        </select>
+      <label class="f">section
+        <select id="f-section"><option value="">không lọc</option><option value="noi_dung">noi_dung</option><option value="phu_luc">phu_luc</option></select>
       </label>
       <button class="primary" id="go">Tra cứu</button>
     </div>
     <p class="status" id="search-status"></p>
     <div id="hits"></div>
-  </section>
+  </div>
+</section>
 
-  <!-- Câu hỏi và trace -->
-  <section id="traces" hidden>
-    <div class="row">
-      <label>Tập
-        <select id="split"><option value="dev">dev (15 câu)</option><option value="test">test (5 câu)</option></select>
-      </label>
-    </div>
-    <div class="scroll"><table id="trace-list"></table></div>
-    <div id="trace-detail"></div>
-  </section>
+<!-- TRACE -->
+<section id="trace">
+  <h2>Trace từng câu hỏi</h2>
+  <p class="lead">Chọn một câu để xem top-3 của từng cấu hình. Chunk có ✓ là chunk chứa bằng chứng gold theo đúng định nghĩa Hit.</p>
+  <div class="row"><label class="f">Tập
+    <select id="split"><option value="dev">dev (15 câu)</option><option value="test">test (5 câu)</option></select></label></div>
+  <div class="scroll"><table id="trace-list"></table></div>
+  <div id="trace-detail"></div>
+</section>
 
-  <!-- Nhãn chấm tay -->
-  <section id="audit" hidden>
-    <p class="muted">Nhãn do tác giả chấm và chốt. Thang điểm: coherence 0–2, grounding 0–2, metadata 0–1.</p>
-    <h2>Coherence (10 vị trí × 2 chỉ mục)</h2>
-    <div class="scroll"><table id="coherence"></table></div>
-    <h2>Metadata (45 bản ghi top-3)</h2>
-    <div id="metadata-summary"></div>
-    <h2>Grounding (5 câu test × 3 cấu hình)</h2>
-    <div class="scroll"><table id="grounding"></table></div>
-  </section>
 </main>
+</div>
 
 <script>
 const $ = (id) => document.getElementById(id);
@@ -165,9 +418,9 @@ function el(tag, attrs = {}, children = []) {
   }
   return node;
 }
-
 function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
-
+function header(cells) { return el("tr", {}, cells.map((t) => el("th", { text: t }))); }
+function fmtRate(n, total) { return `${n}/${total} (${Math.round((100 * n) / total)}%)`; }
 async function getJSON(url) {
   const res = await fetch(url);
   const data = await res.json();
@@ -175,112 +428,180 @@ async function getJSON(url) {
   return data;
 }
 
-function fmtRate(n, total) { return `${n}/${total} (${Math.round((100 * n) / total)}%)`; }
-
-/* ---------- tabs ---------- */
-document.querySelectorAll("nav button").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll("nav button").forEach((b) => b.setAttribute("aria-selected", String(b === btn)));
-    document.querySelectorAll("main > section").forEach((s) => (s.hidden = s.id !== btn.dataset.tab));
-    if (btn.dataset.tab === "traces") loadTraces();
-    if (btn.dataset.tab === "audit") loadAudit();
+/* ---------- mã nguồn đọc trực tiếp từ file ---------- */
+document.querySelectorAll("details.code").forEach((d) => {
+  d.addEventListener("toggle", async () => {
+    if (!d.open || d.dataset.loaded) return;
+    d.dataset.loaded = "1";
+    const body = d.querySelector(".body");
+    try {
+      const data = await getJSON("/api/code?module=" + d.dataset.module);
+      body.append(el("p", { class: "muted", text: `Đường dẫn: ${data.path}` }));
+      for (const s of data.symbols) {
+        body.append(el("h4", { text: `${s.kind === "class" ? "class" : "def"} ${s.name}  · dòng ${s.line}` }));
+        if (s.doc) body.append(el("p", { class: "muted", text: s.doc }));
+        body.append(el("pre", { text: s.source }));
+      }
+    } catch (e) { body.append(el("div", { class: "error", text: e.message })); }
+  });
+});
+document.querySelectorAll("details[data-file]").forEach((d) => {
+  d.addEventListener("toggle", async () => {
+    if (!d.open || d.dataset.loaded) return;
+    d.dataset.loaded = "1";
+    const body = d.querySelector(".body");
+    try {
+      const data = await getJSON("/api/file?name=" + encodeURIComponent(d.dataset.file));
+      body.append(el("pre", { text: data.content }));
+    } catch (e) { body.append(el("div", { class: "error", text: e.message })); }
   });
 });
 
-/* ---------- tổng quan ---------- */
-async function loadOverview() {
-  const status = $("overview-status");
+/* ---------- dữ liệu thật ---------- */
+async function loadAll() {
+  const o = await getJSON("/api/overview");
+  const a = await getJSON("/api/audit");
+
+  // 1. corpus
+  const cs = $("corpus-stats"); clear(cs);
+  const tile = (v, l) => el("div", { class: "card" }, [el("div", { class: "stat", text: v }), el("div", { class: "label", text: l })]);
+  cs.append(
+    tile(String(o.content_pages_total), `trang nội dung (yêu cầu ≥ ${o.minimum_required})`),
+    tile(String(o.pages_ok ?? "–"), "trang vật lý đọc được"),
+    tile(String((o.ingestion_log || []).length), "trang bị loại (ghi lý do)"),
+    tile(o.cost_usd + " USD", "chi phí, model chạy local"),
+  );
+
+  // 2. chiến lược
+  const st = $("strategy-table"); clear(st);
+  st.append(header(["Cấu hình", "Chunking", "Tham số", "Lọc", "Số chunk"]));
+  const chunkCount = (idx) => o.indexes[idx]?.chunks ?? "–";
+  const rows = [
+    ["A", "cửa sổ ký tự, trong từng trang", "500 ký tự, overlap 50", "không", chunkCount("fixed")],
+    ["B", "theo Điều/khoản", "tối đa 1000 ký tự", "không", chunkCount("struct")],
+    ["C", "giống B (dùng chung chỉ mục)", "giống B", "document_type / year / section khi câu hỏi có filter", chunkCount("struct")],
+  ];
+  for (const r of rows) st.append(el("tr", {}, r.map((x) => el("td", { text: String(x) }))));
+
+  // chunk stats
+  const ct = $("chunk-table"); clear(ct);
+  ct.append(header(["Chỉ mục", "Số chunk", "Ký tự min / p50 / max", "Tổng token", "Chunk vượt 512 token", "Thời gian build (s)"]));
+  for (const [name, label] of [["fixed", "A · fixed"], ["struct", "B/C · struct"]]) {
+    const c = o.chunk_stats[name] || {}; const cc = c.chunk_chars || {};
+    ct.append(el("tr", {}, [
+      el("td", { text: label }), el("td", { text: String(chunkCount(name)) }),
+      el("td", { text: `${cc.min ?? "–"} / ${cc.p50 ?? "–"} / ${cc.max ?? "–"}` }),
+      el("td", { text: String(c.tokens_total ?? "–") }),
+      el("td", { text: String(c.chunks_over_token_limit ?? "–") }),
+      el("td", { text: String(c.seconds?.total ?? "–") }),
+    ]));
+  }
+
+  // reingest
+  const rt = $("reingest-table"); clear(rt);
+  rt.append(header(["Lần", "Thời điểm", "Chỉ mục", "Trước", "Sau", "Ghi mới", "Xóa chunk cũ"]));
   try {
-    const o = await getJSON("/api/overview");
-    const totalIdx = Object.values(o.indexes);
-    const stats = $("stats"); clear(stats);
-    const tile = (value, label) => el("div", { class: "card" }, [el("div", { class: "stat", text: value }), el("div", { class: "label", text: label })]);
-    stats.append(
-      tile(String(o.content_pages_total), `trang nội dung (tối thiểu ${o.minimum_required})`),
-      tile(String(totalIdx.find((x) => x.config.chunking === "fixed")?.chunks ?? "–"), "chunk cố định (A)"),
-      tile(String(totalIdx.find((x) => x.config.chunking === "structure")?.chunks ?? "–"), "chunk theo Điều (B, C)"),
-      tile(`${o.cost_usd} USD`, "chi phí (model chạy local)"),
-    );
+    const rr = await fetch("/api/reingest").then((r) => r.json());
+    rr.forEach((r, i) => rt.append(el("tr", {}, [el("td", { text: String(i + 1) }), el("td", { text: r.at }), el("td", { text: r.index }), el("td", { text: String(r.before) }), el("td", { text: String(r.after) }), el("td", { text: String(r.new) }), el("td", { text: String(r.deleted_obsolete) })])));
+  } catch (e) { rt.append(el("tr", {}, [el("td", { class: "error", text: e.message })])); }
 
-    const results = $("results"); clear(results);
-    results.append(el("tr", {}, ["Cấu hình", "Tập", "Hit@1", "Evidence Hit@3"].map((t) => el("th", { text: t }))));
-    for (const split of [o.dev, o.test]) {
-      for (const row of split) {
-        const label = o.strategies[row.strategy].note;
-        results.append(el("tr", {}, [
-          el("td", {}, [el("b", { text: row.strategy }), document.createTextNode(" · " + label)]),
-          el("td", { text: row.split }),
-          el("td", { text: fmtRate(row.hit_at_1, row.n_questions) }),
-          el("td", { text: fmtRate(row.hit_at_3, row.n_questions) }),
-        ]));
-      }
-    }
+  // 3. benchmark
+  const qs = await getJSON("/api/questions");
+  const qbox = $("questions-sample"); clear(qbox);
+  const sample = qs.find((q) => q.filter) || qs[0];
+  qbox.append(el("p", { text: `Tổng: ${qs.length} câu · dev ${qs.filter((q) => q.split === "dev").length} · test ${qs.filter((q) => q.split === "test").length} · có filter ${qs.filter((q) => q.filter).length}` }));
+  qbox.append(el("h4", { text: "Ví dụ một câu có filter (dữ liệu thật)" }));
+  qbox.append(el("pre", { text: JSON.stringify(sample, null, 2) }));
 
-    const src = $("sources"); clear(src);
-    src.append(el("tr", {}, ["Văn bản", "Trang vật lý", "Trang nội dung", "Quyền sử dụng"].map((t) => el("th", { text: t }))));
-    for (const d of o.documents) {
-      src.append(el("tr", {}, [
-        el("td", { text: d.title }), el("td", { text: String(d.physical_pages) }),
-        el("td", { text: String(d.content_pages) }), el("td", { text: d.license }),
-      ]));
-    }
-    const note = el("p", { class: "muted", text: `Embedding: ${o.embedding_model} · Chọn cấu hình C vì có Hit@3 dev cao nhất cùng B (12/15) và Hit@1 dev cao hơn (9/15 so với 8/15).` });
-    src.parentElement.append(note);
-    status.textContent = "";
-  } catch (e) {
-    status.append(el("span", { class: "error", text: `Không tải được dữ liệu: ${e.message}` }));
+  const mt = $("metrics-table"); clear(mt);
+  mt.append(header(["Cấu hình", "Tập", "Hit@1", "Hit@3", "Lỗi khi trượt"]));
+  for (const split of [o.dev, o.test]) for (const r of split) {
+    mt.append(el("tr", {}, [
+      el("td", { text: r.strategy }), el("td", { text: r.split }),
+      el("td", { text: fmtRate(r.hit_at_1, r.n_questions) }), el("td", { text: fmtRate(r.hit_at_3, r.n_questions) }),
+      el("td", { text: JSON.stringify(r.failure_types) }),
+    ]));
+  }
+  const totals = {};
+  for (const r of [...o.dev, ...o.test]) for (const [k, v] of Object.entries(r.failure_types || {})) totals[k] = (totals[k] || 0) + v;
+  $("failure-summary").replaceChildren(el("p", { text: "Tổng số lần trượt theo loại (dev + test): " + (Object.keys(totals).length ? JSON.stringify(totals) : "không có") }));
+
+  // 4. audit
+  const ch = $("coherence-table"); clear(ch);
+  ch.append(header(["Vị trí", "Văn bản · trang", "Chỉ mục", "Điểm 0–2"]));
+  for (const c of a.coherence) {
+    ch.append(el("tr", {}, [el("td", { text: c.position }), el("td", { text: `${c.document_id} · trang ${c.page}` }), el("td", { text: c.index === "fixed" ? "A (cố định)" : "B/C (theo Điều)" }), el("td", { text: c.score })]));
+  }
+  const meanOf = (idx) => { const xs = a.coherence.filter((c) => c.index === idx).map((c) => Number(c.score)); return (xs.reduce((s, x) => s + x, 0) / xs.length).toFixed(1); };
+  $("coherence-table").insertAdjacentElement("afterend", el("p", { class: "muted", text: `Trung bình: A = ${meanOf("fixed")}, B/C = ${meanOf("struct")} (thang 0–2).` }));
+
+  const okMeta = a.metadata.filter((m) => m.score === "1").length;
+  $("metadata-card").replaceChildren(
+    el("p", { text: `Đúng ${okMeta}/${a.metadata.length} bản ghi (chấm 0/1 cho từng bản ghi top-3 của 5 câu test × 3 cấu hình).` }),
+    el("p", { class: "muted", text: "Kiểm tra từng bản ghi: đúng văn bản, đúng trang, đúng loại, năm, phạm vi và Chương." }),
+  );
+  const gc = $("grounding-card"); clear(gc);
+  const gScore = a.grounding.map((g) => Number(g.score));
+  gc.append(el("p", { text: `Điểm 0/1/2: ${[0, 1, 2].map((v) => gScore.filter((x) => x === v).length).join(" / ")} · trung bình ${(gScore.reduce((s, x) => s + x, 0) / gScore.length).toFixed(1)}.` }));
+  const gt = el("table", {}, [header(["Câu", "Cấu hình", "Câu hỏi", "Điểm"])]);
+  for (const g of a.grounding) gt.append(el("tr", {}, [el("td", { text: g.question_id }), el("td", { text: g.strategy }), el("td", { text: g.question }), el("td", { text: g.score })]));
+  gc.append(el("div", { class: "scroll" }, [gt]));
+
+  // 5. tái lập
+  const vt = $("versions-table"); clear(vt);
+  vt.append(header(["Thành phần", "Phiên bản / giá trị"]));
+  for (const [k, v] of Object.entries(o.versions || {})) vt.append(el("tr", {}, [el("td", { text: k }), el("td", { text: String(v) })]));
+  vt.append(el("tr", {}, [el("td", { text: "Embedding model" }), el("td", { text: o.embedding_model })]));
+  vt.append(el("tr", {}, [el("td", { text: "Chi phí" }), el("td", { text: o.cost_usd + " USD" })]));
+  vt.append(el("tr", {}, [el("td", { text: "Lần ingest gần nhất" }), el("td", { text: o.ingest_generated_at || "–" })]));
+
+  const et = $("experiments-table"); clear(et);
+  if (o.experiments.length) {
+    const keys = Object.keys(o.experiments[0]);
+    et.append(header(keys));
+    for (const row of o.experiments) et.append(el("tr", {}, keys.map((k) => el("td", { text: row[k] || "" }))));
   }
 }
 
-/* ---------- tra cứu thử ---------- */
+/* ---------- tra cứu ---------- */
 async function loadSamples() {
   const qs = await getJSON("/api/questions");
   const box = $("samples"); clear(box);
+  box.append(el("p", { class: "muted", text: "Câu mẫu lấy từ tập test:" }));
   for (const q of qs.filter((x) => x.split === "test")) {
-    const btn = el("button", { class: "ghost", text: `${q.id} · ${q.question.slice(0, 48)}…` });
+    const btn = el("button", { class: "ghost", text: `${q.id} · ${q.question.slice(0, 50)}…` });
     btn.addEventListener("click", () => {
       $("q").value = q.question;
       $("strategy").value = "C";
       for (const key of ["document_type", "year", "section"]) $("f-" + key).value = "";
       if (q.filter) for (const [k, v] of Object.entries(q.filter)) $("f-" + k).value = String(v);
-      $("search-status").textContent = q.filter_context ? `Ngữ cảnh filter: ${q.filter_context}` : "";
+      $("search-status").textContent = q.filter_context ? "Ngữ cảnh filter (giả định cung cấp trước truy xuất): " + q.filter_context : "Câu này không có filter.";
     });
     box.append(btn);
   }
 }
-
 async function runSearch() {
   const q = $("q").value.trim();
-  const status = $("search-status"); const hits = $("hits");
-  clear(hits);
+  const status = $("search-status"); const hits = $("hits"); clear(hits);
   if (!q) { status.textContent = "Nhập câu hỏi trước."; return; }
-  status.textContent = "Đang tra cứu (lần đầu có thể lâu vì tải model)…";
+  status.textContent = "Đang truy xuất (lần đầu có thể lâu vì tải model)…";
   const params = new URLSearchParams({ q, strategy: $("strategy").value });
-  for (const key of ["document_type", "year", "section"]) {
-    const v = $("f-" + key).value;
-    if (v) params.set(key, v);
-  }
+  for (const key of ["document_type", "year", "section"]) { const v = $("f-" + key).value; if (v) params.set(key, v); }
   try {
     const r = await getJSON("/api/search?" + params.toString());
-    const applied = r.filter_applied ? `filter đã áp: ${JSON.stringify(r.filter_applied)}` : "không áp filter";
-    status.textContent = `Cấu hình ${r.strategy} (${r.index}) · ${applied}`;
+    status.textContent = `Cấu hình ${r.strategy} · chỉ mục ${r.index} · ` + (r.filter_applied ? `filter đã áp ${JSON.stringify(r.filter_applied)}` : "không áp filter") + ` · ${r.note}`;
     for (const h of r.hits) {
       hits.append(el("div", { class: "hitcard" }, [
         el("div", { class: "meta" }, [
-          el("span", { class: "chip", text: `#${h.rank}` }),
-          el("span", { class: "chip", text: `score ${h.score}` }),
-          el("span", { class: "chip", text: h.document_id }),
-          el("span", { class: "chip", text: `trang ${h.pages}` }),
+          el("span", { class: "chip", text: `#${h.rank}` }), el("span", { class: "chip", text: `cosine ${h.score}` }),
+          el("span", { class: "chip", text: `${h.document_id} · trang ${h.pages}` }),
           h.chapter ? el("span", { class: "chip", text: `Chương ${h.chapter}` }) : null,
           h.article ? el("span", { class: "chip", text: `Điều ${h.article}` }) : null,
         ]),
         document.createTextNode(h.text),
       ]));
     }
-  } catch (e) {
-    status.textContent = "";
-    hits.append(el("div", { class: "error", text: e.message }));
-  }
+  } catch (e) { status.textContent = ""; hits.append(el("div", { class: "error", text: e.message })); }
 }
 $("go").addEventListener("click", runSearch);
 
@@ -288,80 +609,50 @@ $("go").addEventListener("click", runSearch);
 async function loadTraces() {
   const split = $("split").value;
   const rows = await getJSON("/api/traces?split=" + split);
-  const byQuestion = {};
-  for (const r of rows) (byQuestion[r.question_id] ??= {})[r.strategy] = r;
+  const byQ = {};
+  for (const r of rows) (byQ[r.question_id] ??= {})[r.strategy] = r;
   const table = $("trace-list"); clear(table);
-  table.append(el("tr", {}, ["Câu", "Câu hỏi", "A", "B", "C", "Filter"].map((t) => el("th", { text: t }))));
-  for (const [qid, bucket] of Object.entries(byQuestion)) {
+  table.append(header(["Câu", "Câu hỏi", "A", "B", "C", "Filter"]));
+  for (const [qid, bucket] of Object.entries(byQ)) {
     const any = bucket.A || bucket.B || bucket.C;
     const cell = (s) => {
-      const r = bucket[s];
-      if (!r) return el("td", { text: "–" });
-      return el("td", {}, [el("span", { class: r.hit_at_3 ? "ok" : "bad", text: r.hit_at_3 ? "✓ Hit@3" : "✗ trượt" }),
-        document.createTextNode(r.hit_at_1 ? "  (Hit@1 ✓)" : "")]);
+      const r = bucket[s]; if (!r) return el("td", { text: "–" });
+      return el("td", {}, [el("span", { class: r.hit_at_3 ? "ok" : "bad", text: r.hit_at_3 ? "✓ Hit@3" : "✗ trượt" }), document.createTextNode(r.hit_at_1 ? " · Hit@1 ✓" : "")]);
     };
-    const row = el("tr", { style: "cursor:pointer" }, [
-      el("td", { text: qid }), el("td", { text: any.question }), cell("A"), cell("B"), cell("C"),
-      el("td", { text: any.filter_requested ? JSON.stringify(any.filter_requested) : "–" }),
-    ]);
+    const row = el("tr", { style: "cursor:pointer" }, [el("td", { text: qid }), el("td", { text: any.question }), cell("A"), cell("B"), cell("C"), el("td", { text: any.filter_requested ? JSON.stringify(any.filter_requested) : "–" })]);
     row.addEventListener("click", () => showTrace(qid, bucket));
     table.append(row);
   }
   clear($("trace-detail"));
 }
-
 function showTrace(qid, bucket) {
   const box = $("trace-detail"); clear(box);
   const any = bucket.A || bucket.B || bucket.C;
-  box.append(el("h2", { text: `${qid}: ${any.question}` }));
+  box.append(el("h3", { text: `${qid}: ${any.question}` }));
   box.append(el("p", {}, [el("b", { text: "Đáp án mẫu: " }), document.createTextNode(any.expected_answer)]));
-  box.append(el("p", { class: "muted", text: "Gold: " + any.gold.map((g) => `${g.gold_source_id} trang ${g.gold_page}`).join("; ") }));
+  box.append(el("p", { class: "muted", text: "Gold: " + any.gold.map((g) => `${g.gold_source_id}, trang ${g.gold_page}`).join("; ") }));
   for (const s of ["A", "B", "C"]) {
     const r = bucket[s]; if (!r) continue;
-    const section = el("details", { open: s === "C" }, [
-      el("summary", { text: `Cấu hình ${s} · ${r.hit_at_3 ? "có bằng chứng trong top-3" : "không có bằng chứng trong top-3"}${r.failure_type ? " · lỗi: " + r.failure_type : ""}` }),
-    ]);
-    if (r.filter_applied) section.append(el("p", { class: "muted", text: "Filter đã áp: " + JSON.stringify(r.filter_applied) }));
+    const d = el("details", { open: s === "C" }, [el("summary", { text: `Cấu hình ${s} · ${r.hit_at_3 ? "có bằng chứng trong top-3" : "không có bằng chứng trong top-3"}${r.failure_type ? " · loại lỗi: " + r.failure_type : ""}` })]);
+    if (r.filter_applied) d.append(el("p", { class: "muted", text: "Filter đã áp: " + JSON.stringify(r.filter_applied) }));
     for (const h of r.top_k) {
-      section.append(el("div", { class: "hitcard " + (h.is_hit ? "hit" : "miss") }, [
+      d.append(el("div", { class: "hitcard " + (h.is_hit ? "hit" : "miss") }, [
         el("div", { class: "meta" }, [
-          el("span", { class: "chip", text: `#${h.rank}` }),
-          el("span", { class: "chip", text: `score ${h.score}` }),
+          el("span", { class: "chip", text: `#${h.rank}` }), el("span", { class: "chip", text: `cosine ${h.score}` }),
           el("span", { class: "chip", text: `${h.document_id} · trang ${h.pages}` }),
-          h.is_hit ? el("span", { class: "ok", text: "  ✓ chứa bằng chứng gold" }) : el("span", { class: "muted", text: "  không khớp gold" }),
+          h.is_hit ? el("span", { class: "ok", text: " ✓ chứa bằng chứng gold" }) : el("span", { class: "muted", text: " không khớp gold" }),
         ]),
         document.createTextNode(h.text),
       ]));
     }
-    box.append(section);
+    box.append(d);
   }
 }
-
-/* ---------- nhãn audit ---------- */
-async function loadAudit() {
-  const a = await getJSON("/api/audit");
-  const coh = $("coherence"); clear(coh);
-  coh.append(el("tr", {}, ["Vị trí", "Văn bản · trang", "Chỉ mục", "Điểm"].map((t) => el("th", { text: t }))));
-  for (const c of a.coherence) {
-    coh.append(el("tr", {}, [
-      el("td", { text: c.position }), el("td", { text: `${c.document_id} · trang ${c.page}` }),
-      el("td", { text: c.index === "fixed" ? "A (cố định)" : "B/C (theo Điều)" }),
-      el("td", { text: c.score }),
-    ]));
-  }
-  const meta = $("metadata-summary"); clear(meta);
-  const okCount = a.metadata.filter((m) => m.score === "1").length;
-  meta.append(el("p", { text: `Đúng ${okCount}/${a.metadata.length} bản ghi. Xem chi tiết trong results/audit/metadata_labels.csv.` }));
-  const gr = $("grounding"); clear(gr);
-  gr.append(el("tr", {}, ["Câu", "Cấu hình", "Câu hỏi", "Điểm"].map((t) => el("th", { text: t }))));
-  for (const g of a.grounding) {
-    gr.append(el("tr", {}, [el("td", { text: g.question_id }), el("td", { text: g.strategy }), el("td", { text: g.question }), el("td", { text: g.score })]));
-  }
-}
-
 $("split").addEventListener("change", loadTraces);
-loadOverview();
+
+loadAll().catch((e) => { document.querySelector("main").prepend(el("div", { class: "error", text: "Không tải được dữ liệu: " + e.message })); });
 loadSamples();
+loadTraces();
 </script>
 </body>
 </html>

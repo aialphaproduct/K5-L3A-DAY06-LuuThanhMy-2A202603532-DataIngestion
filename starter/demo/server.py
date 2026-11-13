@@ -8,6 +8,7 @@ Không gọi API bên ngoài. Lần tra cứu đầu tiên sẽ tải model embe
 """
 from __future__ import annotations
 
+import ast
 import csv
 import json
 import sys
@@ -72,6 +73,15 @@ def overview() -> dict:
         "strategies": config["strategies"],
         "chosen": "C",
         "cost_usd": stats.get("cost_usd", 0),
+        "versions": stats.get("versions", {}),
+        "ingest_generated_at": stats.get("generated_at"),
+        "chunk_stats": {name: {"chunk_chars": info.get("chunk_chars"),
+                               "tokens_total": info.get("tokens_total"),
+                               "chunks_over_token_limit": info.get("chunks_over_token_limit"),
+                               "seconds": info.get("seconds")}
+                        for name, info in stats.get("indexes", {}).items()},
+        "ingestion_log": read_json(ROOT / "results" / "ingestion_log.json", {}).get("pages_not_ok", []),
+        "pages_ok": read_json(ROOT / "results" / "ingestion_log.json", {}).get("pages_ok"),
         "dev": dev.get("rows", []),
         "test": test.get("rows", []),
         "experiments": experiments,
@@ -157,6 +167,43 @@ def search(question: str, strategy: str, filters: dict[str, str]) -> dict:
     }
 
 
+# Chỉ các file này được phép đọc qua API; không nhận đường dẫn tùy ý từ trình duyệt.
+CODE_MODULES = {
+    "ingestion": "src/ingestion.py", "chunking": "src/chunking.py", "embeddings": "src/embeddings.py",
+    "store": "src/store.py", "evaluation": "src/evaluation.py", "run": "src/run.py", "models": "src/models.py",
+}
+TEXT_FILES = {
+    "docker-compose.yml": "docker-compose.yml", "init.sql": "init.sql", "config.json": "config.json",
+    "requirements.txt": "requirements.txt", "starter-readme": "README.md",
+}
+
+
+def code_symbols(module: str) -> list[dict]:
+    """Trích từng hàm và lớp cấp cao nhất bằng AST: mã nguồn thật, docstring và số dòng."""
+    if module not in CODE_MODULES:
+        raise ValueError(f"module không được phép: {module}")
+    source = (STARTER / CODE_MODULES[module]).read_text(encoding="utf-8")
+    tree = ast.parse(source)
+    symbols = []
+    for node in tree.body:
+        if isinstance(node, (ast.FunctionDef, ast.ClassDef)):
+            symbols.append({
+                "name": node.name,
+                "kind": "class" if isinstance(node, ast.ClassDef) else "function",
+                "line": node.lineno,
+                "doc": ast.get_docstring(node) or "",
+                "source": ast.get_source_segment(source, node) or "",
+            })
+    return symbols
+
+
+def text_file(name: str) -> dict:
+    if name not in TEXT_FILES:
+        raise ValueError(f"file không được phép: {name}")
+    path = (ROOT / TEXT_FILES[name]) if name == "starter-readme" else (STARTER / TEXT_FILES[name])
+    return {"name": name, "content": path.read_text(encoding="utf-8")}
+
+
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:  # noqa: N802 - tên hàm theo quy ước của http.server
         url = urlparse(self.path)
@@ -175,6 +222,14 @@ class Handler(BaseHTTPRequestHandler):
             if url.path == "/api/search":
                 filters = {k: query.get(k, "") for k in FILTER_KEYS}
                 return self.send_json(search(query.get("q", ""), query.get("strategy", "C"), filters))
+            if url.path == "/api/code":
+                return self.send_json({"module": query.get("module", ""),
+                                       "path": CODE_MODULES.get(query.get("module", ""), ""),
+                                       "symbols": code_symbols(query.get("module", ""))})
+            if url.path == "/api/reingest":
+                return self.send_json(read_jsonl(ROOT / "results" / "reingest_log.jsonl"))
+            if url.path == "/api/file":
+                return self.send_json(text_file(query.get("name", "")))
             self.send_error(404)
         except ValueError as error:
             self.send_json({"error": str(error)}, status=400)
