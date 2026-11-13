@@ -3,7 +3,6 @@
 
 Họ tên: Lưu Thanh Mỹ · MSSV: 2A202603532 
 
-Trạng thái: **kết quả tự động và nhãn thủ công (coherence, metadata, grounding) đã đầy đủ. Nhãn do tác giả chấm và chốt, sau khi tham khảo gợi ý của AI ở một số dòng.** Mọi con số dưới đây lấy từ file trong `results/`, không ước tính.
 
 ## Dữ liệu và pipeline
 - Chủ đề, nguồn/quyền, số trang và quy tắc tính trang:
