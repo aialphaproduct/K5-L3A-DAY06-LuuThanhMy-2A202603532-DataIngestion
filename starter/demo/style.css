@@ -34,6 +34,11 @@ body {
   background-attachment: fixed;
 }
 
+/* Bố cục: thanh bên cố định bên trái, nội dung cuộn bên phải */
+.layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); min-height: 100vh; }
+.layout > * { min-width: 0; }
+aside { position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+
 /* Thanh bên */
 aside {
   background: linear-gradient(180deg, #14162e 0%, #1c1f4a 100%);
@@ -228,7 +233,8 @@ section:not([hidden]) > *:nth-child(3) { animation-delay: .08s; }
 section:not([hidden]) > *:nth-child(4) { animation-delay: .12s; }
 
 @media (max-width: 820px) {
-  aside { border-bottom: 0; }
+  .layout { grid-template-columns: 1fr; }
+  aside { position: static; height: auto; overflow: visible; }
   main { padding: 18px 16px 50px; }
   h2 { font-size: 20px; }
   .stat { font-size: 24px; }
