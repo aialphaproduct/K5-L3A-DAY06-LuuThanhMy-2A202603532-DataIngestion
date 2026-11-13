@@ -619,13 +619,16 @@ $("split").addEventListener("change", loadTraces);
 
 /* Menu bên trái: đánh dấu mục đang xem khi cuộn trang. */
 const menuLinks = [...document.querySelectorAll("aside a[href^='#']")];
-const spy = new IntersectionObserver((entries) => {
-  for (const entry of entries) {
-    if (!entry.isIntersecting) continue;
-    menuLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === "#" + entry.target.id));
-  }
-}, { rootMargin: "-30% 0px -60% 0px" });
-document.querySelectorAll("main section[id]").forEach((s) => spy.observe(s));
+const sections = [...document.querySelectorAll("main section[id]")];
+function updateMenu() {
+  const line = window.innerHeight * 0.4;
+  let current = sections[0];
+  for (const s of sections) if (s.getBoundingClientRect().top <= line) current = s;
+  menuLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === "#" + current.id));
+}
+window.addEventListener("scroll", updateMenu, { passive: true });
+window.addEventListener("resize", updateMenu);
+updateMenu();
 
 loadAll().catch((e) => { document.querySelector("main").prepend(el("div", { class: "error", text: "Không tải được dữ liệu: " + e.message })); });
 loadSamples();
