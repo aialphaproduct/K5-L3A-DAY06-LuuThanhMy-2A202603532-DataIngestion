@@ -14,6 +14,7 @@ import json
 import os
 import sys
 import threading
+import time
 import urllib.error
 import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -153,19 +154,51 @@ def search(question: str, strategy: str, filters: dict[str, str]) -> dict:
         raise ValueError("strategy phải là A, B hoặc C")
     if not question.strip():
         raise ValueError("Câu hỏi đang trống")
+    steps = []
+    t_engine = time.perf_counter()
     config, embedder, store = engine()
     spec = config["strategies"][strategy]
+    steps.append({"step": "0. Chuẩn bị model và chỉ mục", "ms": round((time.perf_counter() - t_engine) * 1000, 1),
+                  "detail": f"model {embedder.model_name} · {embedder.dimensions} chiều · "
+                            f"collection day06_{spec['index']} · top_k = {config['top_k']} "
+                            "(lần đầu có thể lâu vì phải tải model)"})
     clean = {}
     for key, value in filters.items():
         if key not in FILTER_KEYS or value == "":
             continue
         clean[key] = int(value) if key in INT_KEYS else value
     applied = clean if (spec["use_filter"] and clean) else None
+    steps.append({"step": "1. Nhận câu hỏi", "ms": 0,
+                  "detail": f"{len(question)} ký tự · câu hỏi được đưa vào truy vấn; "
+                            "đáp án và nguồn gold KHÔNG được đưa vào"})
+
+    t_embed = time.perf_counter()
     vector = embedder.embed_query(question)
+    norm = sum(x * x for x in vector) ** 0.5
+    steps.append({"step": "2. Mã hóa câu hỏi (E5)", "ms": round((time.perf_counter() - t_embed) * 1000, 1),
+                  "detail": f"thêm tiền tố 'query: ' · vector {len(vector)} số · ‖q‖ = {norm:.4f} (đã chuẩn hóa) · "
+                            f"4 số đầu: {[round(x, 4) for x in vector[:4]]}"})
+
+    if applied:
+        where_text = json.dumps({k: {"$eq": v} for k, v in applied.items()}, ensure_ascii=False)
+        filter_text = f"áp where = {where_text}"
+    elif not spec["use_filter"]:
+        filter_text = "không áp dụng: cấu hình này không có lọc"
+    else:
+        filter_text = "không áp dụng: câu hỏi không có filter"
+    steps.append({"step": "3. Lọc metadata", "ms": 0, "detail": filter_text})
+
+    t_search = time.perf_counter()
     hits = store.search(spec["index"], vector, top_k=config["top_k"], filters=applied)
+    steps.append({"step": "4. Tìm kiếm trong Chroma", "ms": round((time.perf_counter() - t_search) * 1000, 1),
+                  "detail": f"độ đo cosine · HNSW (xấp xỉ) · {len(hits)} kết quả · "
+                            f"điểm: {[h['score'] for h in hits]}"})
+    steps.append({"step": "5. Xếp hạng top-k", "ms": 0,
+                  "detail": "; ".join(f"#{h['rank']} {h['metadata']['document_id']} tr.{h['metadata']['pages']}"
+                                      for h in hits)})
     return {
         "strategy": strategy, "index": spec["index"], "filter_requested": clean or None,
-        "filter_applied": applied, "note": spec["note"],
+        "filter_applied": applied, "note": spec["note"], "steps": steps,
         "hits": [{"rank": h["rank"], "score": h["score"], "text": h["text"],
                   "document_id": h["metadata"]["document_id"], "source": h["metadata"]["source"],
                   "pages": h["metadata"]["pages"], "chapter": h["metadata"].get("chapter"),
@@ -205,13 +238,21 @@ def answer(question: str, strategy: str, filters: dict[str, str]) -> dict:
     request = urllib.request.Request(
         ANTHROPIC_URL, data=json.dumps(body).encode("utf-8"), method="POST",
         headers={"content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01"})
+    t_llm = time.perf_counter()
     try:
         with urllib.request.urlopen(request, timeout=60) as response:
             data = json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         raise RuntimeError(f"API trả về lỗi HTTP {error.code}; kiểm tra khóa và hạn mức") from error
     text = "".join(block.get("text", "") for block in data.get("content", []) if block.get("type") == "text")
+    usage = data.get("usage", {})
+    llm_steps = [{"step": "6. Gọi LLM (bonus)", "ms": round((time.perf_counter() - t_llm) * 1000, 1),
+                  "detail": f"model {model} · đầu vào {len(body['messages'][0]['content'])} ký tự "
+                            f"(3 đoạn truy xuất + câu hỏi) · token vào/ra: "
+                            f"{usage.get('input_tokens', '?')}/{usage.get('output_tokens', '?')} · "
+                            f"lý do dừng: {data.get('stop_reason', '?')}"}]
     return {"answer": text.strip(), "model": model, "retrieval": retrieved,
+            "steps": retrieved["steps"] + llm_steps,
             "truncated": data.get("stop_reason") == "max_tokens",
             "note": "LLM chỉ diễn giải 3 đoạn đã truy xuất; không tham gia chấm Hit hay grounding."}
 

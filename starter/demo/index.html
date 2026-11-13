@@ -287,6 +287,8 @@ LIMIT 3;</pre>
 <section id="tra-cuu">
   <h2>Tra cứu thử trực tiếp</h2>
   <p class="lead">Truy vấn chạy trên chỉ mục thật bằng cùng model và cùng store. Lần đầu có thể lâu vì phải tải model.</p>
+  <div class="split">
+  <div>
   <div class="card">
     <div id="samples"></div>
     <textarea id="q" placeholder="Ví dụ: Hồ sơ đánh giá tác động được cập nhật định kỳ bao lâu một lần?"></textarea>
@@ -313,6 +315,9 @@ LIMIT 3;</pre>
     <p class="status" id="search-status"></p>
     <div id="answer"></div>
     <div id="hits"></div>
+  </div>
+  </div>
+  <div class="log-panel" id="log"><h4>Nhật ký chạy</h4><p class="muted">Bấm "Tra cứu" hoặc "Trả lời bằng LLM" để xem từng bước xử lý câu hỏi.</p></div>
   </div>
 </section>
 
@@ -368,6 +373,19 @@ function renderRich(text) {
     });
   });
   return out;
+}
+
+/* Nhật ký: hiển thị từng bước xử lý câu hỏi do server ghi lại (thời gian thật, không ước tính). */
+function renderLog(steps, title) {
+  const box = $("log"); clear(box);
+  box.append(el("h4", { text: "Nhật ký chạy · " + title }));
+  box.append(el("p", { class: "muted", text: "Các bước chạy theo thứ tự từ trên xuống. Thời gian đo bằng bộ đếm trên server." }));
+  for (const s of steps) {
+    box.append(el("div", { class: "log-step" }, [
+      el("div", { class: "log-head" }, [el("b", { text: s.step }), el("span", { class: "log-ms", text: s.ms ? s.ms + " ms" : "" })]),
+      el("div", { class: "log-detail", text: s.detail }),
+    ]));
+  }
 }
 
 /* ---------- mã nguồn đọc trực tiếp từ file ---------- */
@@ -532,6 +550,7 @@ async function runSearch() {
   try {
     const r = await getJSON("/api/search?" + params.toString());
     status.textContent = `Cấu hình ${r.strategy} · chỉ mục ${r.index} · ` + (r.filter_applied ? `filter đã áp ${JSON.stringify(r.filter_applied)}` : "không áp filter") + ` · ${r.note}`;
+    renderLog(r.steps, "Tra cứu");
     for (const h of r.hits) {
       hits.append(el("div", { class: "hitcard" }, [
         el("div", { class: "meta" }, [
@@ -559,6 +578,7 @@ async function runAnswer() {
   try {
     const r = await getJSON("/api/answer?" + params.toString());
     status.textContent = `Mô hình: ${r.model} · ${r.note}`;
+    renderLog(r.steps, "Trả lời bằng LLM");
     if (r.truncated) box.append(el("div", { class: "note", text: "Câu trả lời bị cắt do giới hạn độ dài. Bấm lại để thử, hoặc đọc các đoạn truy xuất bên dưới." }));
     box.append(el("div", { class: "card" }, [
       el("h4", { text: "Trả lời (do LLM tạo, chỉ dựa trên 3 đoạn truy xuất)" }),

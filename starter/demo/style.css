@@ -239,3 +239,27 @@ section:not([hidden]) > *:nth-child(4) { animation-delay: .12s; }
   h2 { font-size: 20px; }
   .stat { font-size: 24px; }
 }
+
+/* Bố cục tra cứu: cột trái là thao tác, cột phải là nhật ký chạy */
+.split { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 18px; align-items: start; }
+.split > div { min-width: 0; }
+.log-panel {
+  position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow-y: auto;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 14px 16px; box-shadow: var(--shadow);
+}
+.log-panel h4 { margin-top: 0; }
+.log-step {
+  border-left: 3px solid var(--brand-2); background: var(--surface-2);
+  border-radius: 8px; padding: 8px 10px; margin: 8px 0; animation: rise .3s ease both;
+}
+.log-head { display: flex; justify-content: space-between; gap: 8px; font-size: 13.5px; }
+.log-ms { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.log-detail {
+  font-size: 12.5px; color: var(--muted); margin-top: 3px; word-break: break-word;
+  font-family: ui-monospace, Consolas, monospace;
+}
+@media (max-width: 1000px) {
+  .split { grid-template-columns: 1fr; }
+  .log-panel { position: static; max-height: none; }
+}
