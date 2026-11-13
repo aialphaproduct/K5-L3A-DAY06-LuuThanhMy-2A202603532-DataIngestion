@@ -25,7 +25,12 @@ ROOT = STARTER.parent
 DEMO = Path(__file__).resolve().parent
 sys.path.insert(0, str(STARTER))
 
+from dotenv import load_dotenv  # noqa: E402
+
 from src.run import load_config  # noqa: E402
+
+# Đọc starter/.env nếu có (file này đã nằm trong .gitignore). Biến đặt sẵn trong môi trường vẫn ưu tiên hơn.
+load_dotenv(STARTER / ".env", override=False)
 
 HOST, PORT = "127.0.0.1", 8000
 FILTER_KEYS = {"document_type", "year", "section"}

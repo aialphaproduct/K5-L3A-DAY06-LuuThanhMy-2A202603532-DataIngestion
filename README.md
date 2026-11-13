@@ -115,14 +115,7 @@ Mở **http://127.0.0.1:8000**. Trang demo được tổ chức theo năm hạng
 
 Trang cũng giải thích vì sao bài không dùng Docker và PostgreSQL: chúng là khung của lớp, còn kết quả dùng Chroma local. Phần SQL trong trang là minh họa tương đương, không chạy trong bài.
 
-**Bonus: trả lời bằng LLM.** Nút "Trả lời bằng LLM" trong tab tra cứu gửi 3 đoạn đã truy xuất tới API Anthropic để diễn giải thành câu trả lời có trích dẫn `[#số]`. Tính năng này không bắt buộc và không tham gia chấm Hit hay grounding. Cách bật, trong PowerShell:
-
-```powershell
-$env:ANTHROPIC_API_KEY = "khóa-của-anh"
-python demo/server.py
-```
-
-Không ghi khóa vào file nào trong repo. Nếu chưa đặt khóa, nút báo lỗi rõ ràng và phần truy xuất vẫn hoạt động. Model mặc định là `claude-haiku-5-5`, có thể đổi bằng `ANTHROPIC_MODEL`. Mỗi lần bấm nút là một lần gọi API có tính phí; chi phí chưa được đo trong báo cáo.
+**Bonus: trả lời bằng LLM.** Nút "Trả lời bằng LLM" trong tab tra cứu gửi 3 đoạn đã truy xuất tới API Anthropic để diễn giải thành câu trả lời có trích dẫn `[#số]`. Tính năng này không bắt buộc và không tham gia chấm Hit hay grounding. Cách bật: mở `starter/.env` (file này đã nằm trong `.gitignore`) và dán khóa vào sau dấu `=` của dòng `ANTHROPIC_API_KEY`, rồi chạy `python demo/server.py`. Không commit file `.env`, và không dán khóa vào chat. Nếu chưa đặt khóa, nút báo lỗi rõ ràng và phần truy xuất vẫn hoạt động. Model mặc định là `claude-haiku-5-5`, có thể đổi bằng `ANTHROPIC_MODEL`. Mỗi lần bấm nút là một lần gọi API có tính phí; chi phí chưa được đo trong báo cáo.
 
 ### 6. Kết quả chính
 
