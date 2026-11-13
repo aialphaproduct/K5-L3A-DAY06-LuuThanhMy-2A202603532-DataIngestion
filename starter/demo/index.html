@@ -617,6 +617,16 @@ function showTrace(qid, bucket) {
 }
 $("split").addEventListener("change", loadTraces);
 
+/* Menu bên trái: đánh dấu mục đang xem khi cuộn trang. */
+const menuLinks = [...document.querySelectorAll("aside a[href^='#']")];
+const spy = new IntersectionObserver((entries) => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+    menuLinks.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === "#" + entry.target.id));
+  }
+}, { rootMargin: "-30% 0px -60% 0px" });
+document.querySelectorAll("main section[id]").forEach((s) => spy.observe(s));
+
 loadAll().catch((e) => { document.querySelector("main").prepend(el("div", { class: "error", text: "Không tải được dữ liệu: " + e.message })); });
 loadSamples();
 loadTraces();
