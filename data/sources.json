@@ -1,0 +1,41 @@
+{
+  "note": "Khai báo nguồn do tác giả ghi tay. data/manifest.json được sinh từ file này + kết quả đọc PDF (python -m src.run ingest).",
+  "sources": [
+    {
+      "source_id": "luat-91-2025",
+      "title": "Luật Bảo vệ dữ liệu cá nhân, số 91/2025/QH15",
+      "source_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2025/6/45578/57730-1-2025971-97291-2025-qh15.pdf",
+      "landing_page": "https://congbao.chinhphu.vn/van-ban/luat-so-91-2025-qh15-45578.htm",
+      "local_path": "data/raw/luat-91-2025-qh15.pdf",
+      "sha256": "226dd6da66a6eea348e04db0f8c496d884021b730298991c6f6683720a0dfa2e",
+      "license_or_permission": "Văn bản quy phạm pháp luật: không thuộc đối tượng bảo hộ quyền tác giả theo Điều 15 Luật Sở hữu trí tuệ Việt Nam; đăng công khai trên Công báo điện tử Chính phủ. Được sao chép, xử lý và phân phối lại.",
+      "accessed_at": "2026-11-13",
+      "version_note": "Bản đăng Công báo số 971 + 972 ngày 24-7-2025; Quốc hội thông qua ngày 26-6-2025.",
+      "appendix_from_page": null,
+      "metadata": {
+        "document_type": "luat",
+        "year": 2025,
+        "doc_number": "91/2025/QH15",
+        "title": "Luật Bảo vệ dữ liệu cá nhân"
+      }
+    },
+    {
+      "source_id": "nd-13-2023",
+      "title": "Nghị định số 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân",
+      "source_url": "https://congbaocdn.chinhphu.vn/CongBaoCP/VanBan/2023/4/39228/44543-1-2023685-68613-2023-nd-cp.pdf",
+      "landing_page": "https://congbao.chinhphu.vn/van-ban/nghi-dinh-so-13-2023-nd-cp-39228/44543.htm",
+      "local_path": "data/raw/nghi-dinh-13-2023-nd-cp.pdf",
+      "sha256": "5b026143b56779199603a164260cc76533a816b9c851a4c769e16a55ef7d6e6f",
+      "license_or_permission": "Văn bản quy phạm pháp luật: không thuộc đối tượng bảo hộ quyền tác giả theo Điều 15 Luật Sở hữu trí tuệ Việt Nam; đăng công khai trên Công báo điện tử Chính phủ. Được sao chép, xử lý và phân phối lại.",
+      "accessed_at": "2026-11-13",
+      "version_note": "Bản đăng Công báo số 685 + 686 ngày 30-4-2023; Chính phủ ban hành ngày 17-4-2023.",
+      "appendix_from_page": 30,
+      "metadata": {
+        "document_type": "nghi_dinh",
+        "year": 2023,
+        "doc_number": "13/2023/NĐ-CP",
+        "title": "Nghị định về bảo vệ dữ liệu cá nhân"
+      }
+    }
+  ]
+}
