@@ -111,7 +111,7 @@ cd starter
 python demo/server.py
 ```
 
-Mở **http://127.0.0.1:8000**. Trang demo được tổ chức theo năm hạng mục của rubric. Mỗi mục nêu cơ chế, số liệu lấy từ , và mã nguồn đọc trực tiếp từ module (API  dùng AST, chỉ đọc các file trong danh sách cho phép). Phần tra cứu thử chạy trên chỉ mục thật; lần đầu có thể chậm vì phải tải model.
+Mở **http://127.0.0.1:8000**. Trang demo được tổ chức theo năm hạng mục của rubric. Mỗi mục nêu cơ chế, số liệu lấy từ `results/`, và mã nguồn đọc trực tiếp từ module (API `/api/code` dùng AST, chỉ đọc các file trong danh sách cho phép). Phần tra cứu thử chạy trên chỉ mục thật; lần đầu có thể chậm vì phải tải model.
 
 Trang cũng giải thích vì sao bài không dùng Docker và PostgreSQL: chúng là khung của lớp, còn kết quả dùng Chroma local. Phần SQL trong trang là minh họa tương đương, không chạy trong bài.
 
