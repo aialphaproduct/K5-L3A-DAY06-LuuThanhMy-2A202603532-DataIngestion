@@ -199,7 +199,7 @@ def answer(question: str, strategy: str, filters: dict[str, str]) -> dict:
         f"[#{h['rank']}] {h['document_id']}, trang {h['pages']}\n{h['text']}" for h in retrieved["hits"])
     model = os.environ.get("ANTHROPIC_MODEL", "claude-haiku-5-5")
     body = {
-        "model": model, "max_tokens": 400, "system": ANSWER_SYSTEM,
+        "model": model, "max_tokens": 900, "system": ANSWER_SYSTEM,
         "messages": [{"role": "user", "content": f"Câu hỏi: {question}\n\nCác đoạn truy xuất:\n{context}"}],
     }
     request = urllib.request.Request(
@@ -212,6 +212,7 @@ def answer(question: str, strategy: str, filters: dict[str, str]) -> dict:
         raise RuntimeError(f"API trả về lỗi HTTP {error.code}; kiểm tra khóa và hạn mức") from error
     text = "".join(block.get("text", "") for block in data.get("content", []) if block.get("type") == "text")
     return {"answer": text.strip(), "model": model, "retrieval": retrieved,
+            "truncated": data.get("stop_reason") == "max_tokens",
             "note": "LLM chỉ diễn giải 3 đoạn đã truy xuất; không tham gia chấm Hit hay grounding."}
 
 
@@ -259,6 +260,8 @@ class Handler(BaseHTTPRequestHandler):
         try:
             if url.path == "/":
                 return self.send_bytes((DEMO / "index.html").read_bytes(), "text/html; charset=utf-8")
+            if url.path == "/style.css":
+                return self.send_bytes((DEMO / "style.css").read_bytes(), "text/css; charset=utf-8")
             if url.path == "/api/overview":
                 return self.send_json(overview())
             if url.path == "/api/questions":

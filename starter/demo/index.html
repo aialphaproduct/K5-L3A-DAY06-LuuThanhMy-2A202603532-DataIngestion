@@ -4,82 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Day 06 · Giải thích bài làm theo rubric</title>
-<style>
-  :root {
-    --bg: #f5f6f8; --card: #ffffff; --ink: #1c2330; --muted: #5a6373;
-    --line: #dde1e8; --accent: #2456d6; --ok: #1f7a4d; --bad: #b42318; --warn: #8a5a00;
-    --chip: #eef2ff; --code: #0f1420; --codeink: #e6ebf5;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #11141b; --card: #1a1f2b; --ink: #e6e9f0; --muted: #98a1b3;
-      --line: #2a3144; --accent: #7aa2ff; --ok: #4ade80; --bad: #f87171; --warn: #fbbf24;
-      --chip: #222a42; --code: #0a0d14; --codeink: #d6dcea;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #11141b; --card: #1a1f2b; --ink: #e6e9f0; --muted: #98a1b3;
-    --line: #2a3144; --accent: #7aa2ff; --ok: #4ade80; --bad: #f87171; --warn: #fbbf24;
-    --chip: #222a42; --code: #0a0d14; --codeink: #d6dcea;
-  }
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { margin: 0; font: 15px/1.6 system-ui, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); }
-  .layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
-  aside { position: sticky; top: 0; height: 100vh; overflow-y: auto; background: var(--card); border-right: 1px solid var(--line); padding: 18px 14px; }
-  aside h1 { font-size: 15px; margin: 0 0 4px; }
-  aside .sub { color: var(--muted); font-size: 12px; margin-bottom: 14px; }
-  aside a { display: block; color: var(--ink); text-decoration: none; padding: 7px 10px; border-radius: 8px; font-size: 14px; }
-  aside a:hover { background: var(--chip); }
-  aside a .pts { float: right; color: var(--muted); font-size: 12px; }
-  main { padding: 22px 28px 60px; max-width: 1040px; min-width: 0; }
-  .layout > * { min-width: 0; }
-  section { margin-bottom: 44px; scroll-margin-top: 12px; }
-  h2 { font-size: 22px; margin: 0 0 6px; }
-  h3 { font-size: 16px; margin: 22px 0 6px; }
-  h4 { font-size: 14px; margin: 14px 0 4px; }
-  .lead { color: var(--muted); margin: 0 0 14px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; margin: 10px 0; }
-  .grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
-  .stat { font-size: 24px; font-weight: 650; }
-  .label { color: var(--muted); font-size: 13px; }
-  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; margin: 8px 0; }
-  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14px; }
-  th { color: var(--muted); font-weight: 600; background: var(--chip); }
-  .scroll { overflow-x: auto; }
-  .chip { display: inline-block; padding: 2px 9px; border-radius: 999px; background: var(--chip); font-size: 13px; margin: 2px 4px 2px 0; }
-  .ok { color: var(--ok); font-weight: 600; }
-  .bad { color: var(--bad); font-weight: 600; }
-  .warn { color: var(--warn); font-weight: 600; }
-  .muted { color: var(--muted); }
-  code { font-family: ui-monospace, Consolas, monospace; font-size: 13px; background: var(--chip); padding: 1px 5px; border-radius: 5px; }
-  pre { background: var(--code); color: var(--codeink); padding: 12px 14px; border-radius: 10px; overflow-x: auto; font: 13px/1.5 ui-monospace, Consolas, monospace; white-space: pre; margin: 8px 0; }
-  details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; margin: 8px 0; padding: 8px 14px; }
-  summary { cursor: pointer; font-weight: 600; padding: 4px 0; }
-  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 10px 0; }
-  .step { background: var(--card); border: 1px solid var(--accent); color: var(--ink); border-radius: 8px; padding: 7px 10px; font-size: 13px; }
-  .arrow { color: var(--accent); font-weight: 700; }
-  .rubric td:nth-child(2), .rubric th:nth-child(2) { text-align: right; white-space: nowrap; }
-  .hitcard { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; margin: 8px 0; white-space: pre-wrap; font-size: 14px; }
-  .hitcard .meta { color: var(--muted); font-size: 13px; margin-bottom: 4px; white-space: normal; }
-  .hit { border-left: 4px solid var(--ok); }
-  .miss { border-left: 4px solid var(--line); }
-  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: end; margin: 8px 0 12px; }
-  label.f { display: flex; flex-direction: column; font-size: 13px; color: var(--muted); gap: 4px; }
-  select, input, textarea { font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--ink); }
-  textarea { width: 100%; min-height: 64px; }
-  button.primary { background: var(--accent); color: #fff; border: 0; padding: 9px 16px; border-radius: 8px; cursor: pointer; font: inherit; }
-  button.ghost { background: transparent; color: var(--accent); border: 1px solid var(--line); padding: 6px 10px; border-radius: 8px; cursor: pointer; font: inherit; margin: 3px; }
-  .status { color: var(--muted); min-height: 22px; font-size: 14px; }
-  .error { color: var(--bad); white-space: pre-wrap; }
-  .note { border-left: 4px solid var(--warn); padding: 8px 12px; background: var(--card); border-radius: 8px; margin: 10px 0; font-size: 14px; }
-  .formula { font-family: ui-monospace, Consolas, monospace; background: var(--chip); padding: 8px 12px; border-radius: 8px; display: block; margin: 6px 0; font-size: 14px; }
-  @media (max-width: 820px) {
-    .layout { grid-template-columns: 1fr; }
-    aside { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
-    main { padding: 16px; }
-  }
-</style>
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <div class="layout">
@@ -430,6 +355,21 @@ async function getJSON(url) {
   return data;
 }
 
+
+/* In đậm **chữ** và xuống dòng, không chèn HTML từ model. */
+function renderRich(text) {
+  const out = [];
+  text.split("\n").forEach((line, i) => {
+    if (i > 0) out.push(el("br"));
+    line.split(/(\*\*[^*]+\*\*)/g).forEach((part) => {
+      if (!part) return;
+      if (part.startsWith("**") && part.endsWith("**")) out.push(el("b", { text: part.slice(2, -2) }));
+      else out.push(document.createTextNode(part));
+    });
+  });
+  return out;
+}
+
 /* ---------- mã nguồn đọc trực tiếp từ file ---------- */
 document.querySelectorAll("details.code").forEach((d) => {
   d.addEventListener("toggle", async () => {
@@ -619,9 +559,10 @@ async function runAnswer() {
   try {
     const r = await getJSON("/api/answer?" + params.toString());
     status.textContent = `Mô hình: ${r.model} · ${r.note}`;
+    if (r.truncated) box.append(el("div", { class: "note", text: "Câu trả lời bị cắt do giới hạn độ dài. Bấm lại để thử, hoặc đọc các đoạn truy xuất bên dưới." }));
     box.append(el("div", { class: "card" }, [
       el("h4", { text: "Trả lời (do LLM tạo, chỉ dựa trên 3 đoạn truy xuất)" }),
-      el("p", { text: r.answer }),
+      el("div", { class: "answer-text" }, renderRich(r.answer)),
       el("p", { class: "muted", text: "Kiểm tra lại trích dẫn [#số] với các đoạn bên dưới trước khi tin." }),
     ]));
   } catch (e) {
