@@ -383,8 +383,10 @@ LIMIT 3;</pre>
         <select id="f-section"><option value="">không lọc</option><option value="noi_dung">noi_dung</option><option value="phu_luc">phu_luc</option></select>
       </label>
       <button class="primary" id="go">Tra cứu</button>
+      <button class="ghost" id="ask">Trả lời bằng LLM (bonus)</button>
     </div>
     <p class="status" id="search-status"></p>
+    <div id="answer"></div>
     <div id="hits"></div>
   </div>
 </section>
@@ -604,6 +606,30 @@ async function runSearch() {
   } catch (e) { status.textContent = ""; hits.append(el("div", { class: "error", text: e.message })); }
 }
 $("go").addEventListener("click", runSearch);
+
+/* Bonus: LLM diễn giải top-3. Không thay thế phần truy xuất và không tham gia chấm điểm. */
+async function runAnswer() {
+  const q = $("q").value.trim();
+  const box = $("answer"); clear(box);
+  const status = $("search-status");
+  if (!q) { status.textContent = "Nhập câu hỏi trước."; return; }
+  status.textContent = "Đang gọi LLM với 3 đoạn đã truy xuất…";
+  const params = new URLSearchParams({ q, strategy: $("strategy").value });
+  for (const key of ["document_type", "year", "section"]) { const v = $("f-" + key).value; if (v) params.set(key, v); }
+  try {
+    const r = await getJSON("/api/answer?" + params.toString());
+    status.textContent = `Mô hình: ${r.model} · ${r.note}`;
+    box.append(el("div", { class: "card" }, [
+      el("h4", { text: "Trả lời (do LLM tạo, chỉ dựa trên 3 đoạn truy xuất)" }),
+      el("p", { text: r.answer }),
+      el("p", { class: "muted", text: "Kiểm tra lại trích dẫn [#số] với các đoạn bên dưới trước khi tin." }),
+    ]));
+  } catch (e) {
+    status.textContent = "";
+    box.append(el("div", { class: "note", text: e.message }));
+  }
+}
+$("ask").addEventListener("click", runAnswer);
 
 /* ---------- trace ---------- */
 async function loadTraces() {

@@ -11,8 +11,11 @@ from __future__ import annotations
 import ast
 import csv
 import json
+import os
 import sys
 import threading
+import urllib.error
+import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
@@ -167,6 +170,46 @@ def search(question: str, strategy: str, filters: dict[str, str]) -> dict:
     }
 
 
+class ServiceUnavailable(Exception):
+    """Tính năng tùy chọn chưa được cấu hình (ví dụ thiếu khóa API). Không thay bằng kết quả giả."""
+
+
+ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
+ANSWER_SYSTEM = (
+    "Bạn trả lời câu hỏi pháp luật Việt Nam CHỈ dựa trên các đoạn được cung cấp. "
+    "Nếu các đoạn không đủ thông tin, hãy nói rõ 'Không đủ bằng chứng trong các đoạn truy xuất' và không suy đoán. "
+    "Trả lời ngắn gọn bằng tiếng Việt. Sau mỗi ý, ghi trích dẫn dạng [#số đoạn]."
+)
+
+
+def answer(question: str, strategy: str, filters: dict[str, str]) -> dict:
+    """Bonus: LLM chỉ diễn giải top-3 của phần truy xuất. Không dùng cho chấm điểm retrieval hay grounding."""
+    key = os.environ.get("ANTHROPIC_API_KEY", "").strip()
+    if not key:
+        raise ServiceUnavailable(
+            "Chưa đặt biến môi trường ANTHROPIC_API_KEY nên chưa gọi được LLM. "
+            "Phần truy xuất vẫn chạy bình thường không cần khóa.")
+    retrieved = search(question, strategy, filters)
+    context = "\n\n".join(
+        f"[#{h['rank']}] {h['document_id']}, trang {h['pages']}\n{h['text']}" for h in retrieved["hits"])
+    model = os.environ.get("ANTHROPIC_MODEL", "claude-haiku-5-5")
+    body = {
+        "model": model, "max_tokens": 400, "system": ANSWER_SYSTEM,
+        "messages": [{"role": "user", "content": f"Câu hỏi: {question}\n\nCác đoạn truy xuất:\n{context}"}],
+    }
+    request = urllib.request.Request(
+        ANTHROPIC_URL, data=json.dumps(body).encode("utf-8"), method="POST",
+        headers={"content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01"})
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            data = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as error:
+        raise RuntimeError(f"API trả về lỗi HTTP {error.code}; kiểm tra khóa và hạn mức") from error
+    text = "".join(block.get("text", "") for block in data.get("content", []) if block.get("type") == "text")
+    return {"answer": text.strip(), "model": model, "retrieval": retrieved,
+            "note": "LLM chỉ diễn giải 3 đoạn đã truy xuất; không tham gia chấm Hit hay grounding."}
+
+
 # Chỉ các file này được phép đọc qua API; không nhận đường dẫn tùy ý từ trình duyệt.
 CODE_MODULES = {
     "ingestion": "src/ingestion.py", "chunking": "src/chunking.py", "embeddings": "src/embeddings.py",
@@ -226,6 +269,9 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send_json({"module": query.get("module", ""),
                                        "path": CODE_MODULES.get(query.get("module", ""), ""),
                                        "symbols": code_symbols(query.get("module", ""))})
+            if url.path == "/api/answer":
+                filters = {k: query.get(k, "") for k in FILTER_KEYS}
+                return self.send_json(answer(query.get("q", ""), query.get("strategy", "C"), filters))
             if url.path == "/api/reingest":
                 return self.send_json(read_jsonl(ROOT / "results" / "reingest_log.jsonl"))
             if url.path == "/api/file":
@@ -233,6 +279,8 @@ class Handler(BaseHTTPRequestHandler):
             self.send_error(404)
         except ValueError as error:
             self.send_json({"error": str(error)}, status=400)
+        except ServiceUnavailable as error:
+            self.send_json({"error": str(error)}, status=503)
         except Exception as error:  # hiển thị lỗi thật, không che bằng dữ liệu giả
             self.send_json({"error": f"{type(error).__name__}: {error}"}, status=500)
 
