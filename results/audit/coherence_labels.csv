@@ -1,0 +1,109 @@
+﻿position_id,document_id,page,anchor,index,strategies,chunk_id,chunk_chars,chunk_text,de_xuat_ai,ly_do_ai,nhan_chot,ly_do_chot
+pos01,luat-91-2025,3,"quan, tổ chức, cá nhân liên qu",fixed,A,luat-91-2025:fixed500-50:p003:002,500,"uan có thẩm quyền hoặc cơ quan, tổ chức, cá nhân liên quan đến xử lý dữ liệu cá nhân thực hiện các biện pháp, giải pháp bảo vệ dữ liệu cá nhân của mình theo quy định của pháp luật.
+2. Nghĩa vụ của chủ thể dữ liệu cá nhân bao gồm:
+a) Tự bảo vệ dữ liệu cá nhân của mình;
+b) Tôn trọng, bảo vệ dữ liệu cá nhân của người khác;
+c) Cung cấp đầy đủ, chính xác dữ liệu cá nhân của mình theo quy định của pháp luật, theo hợp đồng hoặc khi đồng ý cho phép xử lý dữ liệu cá nhân của mình;
+d) Chấp hành pháp luật ",1,"Chunk bắt đầu giữa câu ('uan có thẩm quyền…'), thiếu chủ thể; phần nghĩa vụ vẫn hiểu được",1,
+pos01,luat-91-2025,3,"quan, tổ chức, cá nhân liên qu",struct,B/C,luat-91-2025:struct1000:a004:000,977,"Điều 4. Quyền và nghĩa vụ của chủ thể dữ liệu cá nhân
+1. Quyền của chủ thể dữ liệu cá nhân bao gồm:
+a) Được biết về hoạt động xử lý dữ liệu cá nhân;
+b) Đồng ý hoặc không đồng ý, yêu cầu rút lại sự đồng ý cho phép xử lý dữ liệu cá nhân;
+c) Xem, chỉnh sửa hoặc yêu cầu chỉnh sửa dữ liệu cá nhân;
+d) Yêu cầu cung cấp, xóa, hạn chế xử lý dữ liệu cá nhân; gửi yêu cầu phản đối xử lý dữ liệu cá nhân;
+đ) Khiếu nại, tố cáo, khởi kiện, yêu cầu bồi thường thiệt hại theo quy định của pháp luật;
+e) Yêu cầu cơ quan có thẩm quyền hoặc cơ quan, tổ chức, cá nhân liên quan đến xử lý dữ liệu cá nhân thực hiện các biện pháp, giải pháp bảo vệ dữ liệu cá nhân của mình theo quy định của pháp luật.
+2. Nghĩa vụ của chủ thể dữ liệu cá nhân bao gồm:
+a) Tự bảo vệ dữ liệu cá nhân của mình;
+b) Tôn trọng, bảo vệ dữ liệu cá nhân của người khác;
+c) Cung cấp đầy đủ, chính xác dữ liệu cá nhân của mình theo quy định của pháp luật, theo hợp đồng hoặc khi đồng ý cho phép xử lý dữ liệu cá nhân của mình;",2,"Trọn Điều 4 có tiêu đề, khoản và điểm đầy đủ",2,
+pos02,luat-91-2025,8,"dữ liệu cá nhân, bên kiểm soát",fixed,A,luat-91-2025:fixed500-50:p008:002,500,"mã dữ liệu cá nhân phù hợp với hoạt động xử lý dữ liệu cá nhân.
+Điều 13. Chỉnh sửa dữ liệu cá nhân
+1. Chủ thể dữ liệu cá nhân được tự mình chỉnh sửa dữ liệu cá nhân của mình đối với một số loại dữ liệu cá nhân theo thỏa thuận với bên kiểm soát dữ liệu cá nhân, bên kiểm soát và xử lý dữ liệu cá nhân; đề nghị bên kiểm soát dữ liệu cá nhân, bên kiểm soát và xử lý dữ liệu cá nhân chỉnh sửa dữ liệu cá nhân của mình.
+2. Bên kiểm soát dữ liệu cá nhân, bên kiểm soát và xử lý dữ liệu cá nhân chỉnh sửa dữ",1,Bắt đầu giữa câu ('mã dữ liệu cá nhân…'); mục Điều 13 bị cắt ngang,1,
+pos02,luat-91-2025,8,"dữ liệu cá nhân, bên kiểm soát",struct,B/C,luat-91-2025:struct1000:a013:000,909,"Điều 13. Chỉnh sửa dữ liệu cá nhân
+1. Chủ thể dữ liệu cá nhân được tự mình chỉnh sửa dữ liệu cá nhân của mình đối với một số loại dữ liệu cá nhân theo thỏa thuận với bên kiểm soát dữ liệu cá nhân, bên kiểm soát và xử lý dữ liệu cá nhân; đề nghị bên kiểm soát dữ liệu cá nhân, bên kiểm soát và xử lý dữ liệu cá nhân chỉnh sửa dữ liệu cá nhân của mình.
+2. Bên kiểm soát dữ liệu cá nhân, bên kiểm soát và xử lý dữ liệu cá nhân chỉnh sửa dữ liệu cá nhân sau khi chủ thể dữ liệu cá nhân yêu cầu hoặc chỉnh sửa dữ liệu cá nhân theo quy định của pháp luật; yêu cầu bên xử lý dữ liệu cá nhân, bên thứ ba chỉnh sửa dữ liệu cá nhân của chủ thể dữ liệu cá nhân.
+3. Việc chỉnh sửa dữ liệu cá nhân phải bảo đảm tính chính xác. Trường hợp không thể chỉnh sửa dữ liệu cá nhân vì lý do chính đáng, bên kiểm soát dữ liệu cá nhân, bên kiểm soát và xử lý dữ liệu cá nhân phải thông báo để cơ quan, tổ chức, cá nhân yêu cầu biết.",2,Điều 13 trọn vẹn kèm tiêu đề,2,
+pos03,luat-91-2025,13,gồm: a) Việc chuyển dữ liệu cá,fixed,A,luat-91-2025:fixed500-50:p013:002,500,"hân được chuyển để sử dụng vào hoạt động có thể gây tổn hại đến quốc phòng, an ninh quốc gia.
+6. Các trường hợp không phải thực hiện quy định về đánh giá tác động chuyển dữ liệu cá nhân xuyên biên giới bao gồm:
+a) Việc chuyển dữ liệu cá nhân xuyên biên giới của cơ quan nhà nước có thẩm quyền;
+b) Cơ quan, tổ chức lưu trữ dữ liệu cá nhân của người lao động thuộc cơ quan, tổ chức đó trên dịch vụ điện toán đám mây;
+c) Chủ thể dữ liệu cá nhân tự chuyển dữ liệu cá nhân của mình xuyên biên giới;
+d) Các",1,"Bắt đầu giữa câu ('hân được chuyển…'), thiếu chủ thể",1,
+pos03,luat-91-2025,13,gồm: a) Việc chuyển dữ liệu cá,struct,B/C,luat-91-2025:struct1000:a020:001,1013,"[Điều 20. Chuyển dữ liệu cá nhân xuyên biên giới (tiếp)]
+3. Đánh giá tác động chuyển dữ liệu cá nhân xuyên biên giới được thực hiện 01 lần cho suốt thời gian hoạt động của cơ quan, tổ chức, cá nhân đó và được cập nhật theo quy định tại Điều 22 của Luật này.
+4. Cơ quan chuyên trách bảo vệ dữ liệu cá nhân quyết định việc kiểm tra chuyển dữ liệu cá nhân xuyên biên giới định kỳ không quá 01 lần trong năm hoặc kiểm tra đột xuất khi phát hiện hành vi vi phạm quy định của pháp luật về bảo vệ dữ liệu cá nhân hoặc khi xảy ra sự cố lộ, mất dữ liệu cá nhân.
+5. Cơ quan chuyên trách bảo vệ dữ liệu cá nhân quyết định yêu cầu ngừng chuyển dữ liệu cá nhân xuyên biên giới của cơ quan, tổ chức, cá nhân khi phát hiện dữ liệu cá nhân được chuyển để sử dụng vào hoạt động có thể gây tổn hại đến quốc phòng, an ninh quốc gia.
+6. Các trường hợp không phải thực hiện quy định về đánh giá tác động chuyển dữ liệu cá nhân xuyên biên giới bao gồm:
+a) Việc chuyển dữ liệu cá nhân xuyên biên giới của cơ quan nhà nước có thẩm quyền;",2,Chunk có nhãn '(tiếp)' của Điều 20 và giữ đủ khoản 6 'gồm: a)…',2,
+pos04,luat-91-2025,18,định chi tiết Điều này. Điều 2,fixed,A,luat-91-2025:fixed500-50:p018:002,500," chỉnh sửa trái phép dữ liệu cá nhân của khách hàng; có giải pháp khôi phục dữ liệu cá nhân của khách hàng trong trường hợp bị mất; bảo mật trong quá trình thu thập, cung cấp, xử lý dữ liệu cá nhân của khách hàng phục vụ đánh giá thông tin tín dụng.
+3. Chính phủ quy định chi tiết Điều này.
+Điều 28. Bảo vệ dữ liệu cá nhân trong kinh doanh dịch vụ quảng cáo
+1. Tổ chức, cá nhân kinh doanh dịch vụ quảng cáo chỉ được sử dụng dữ liệu cá nhân của khách hàng được bên kiểm soát dữ liệu cá nhân, bên kiểm ",1,"Bắt đầu giữa câu ('chỉnh sửa trái phép…'), thiếu chủ thể",1,
+pos04,luat-91-2025,18,định chi tiết Điều này. Điều 2,struct,B/C,luat-91-2025:struct1000:a027:001,566,"[Điều 27. Bảo vệ dữ liệu cá nhân trong hoạt động tài chính, ngân hàng, hoạt động thông tin tín dụng (tiếp)]
+2. Tổ chức, cá nhân thực hiện hoạt động thông tin tín dụng có trách nhiệm tuân thủ quy định của Luật này; áp dụng các biện pháp phòng, chống truy cập, sử dụng, tiết lộ, chỉnh sửa trái phép dữ liệu cá nhân của khách hàng; có giải pháp khôi phục dữ liệu cá nhân của khách hàng trong trường hợp bị mất; bảo mật trong quá trình thu thập, cung cấp, xử lý dữ liệu cá nhân của khách hàng phục vụ đánh giá thông tin tín dụng.
+3. Chính phủ quy định chi tiết Điều này.",2,Có nhãn Điều 27 (tiếp) và khoản 2 đầy đủ,2,
+pos05,luat-91-2025,23,cá nhân 1. Trách nhiệm của bên,fixed,A,luat-91-2025:fixed500-50:p023:002,500,"a bên kiểm soát dữ liệu cá nhân, bên xử lý dữ liệu cá nhân, bên kiểm soát và xử lý dữ liệu cá nhân
+1. Trách nhiệm của bên kiểm soát dữ liệu cá nhân như sau:
+a) Nêu rõ trách nhiệm, quyền và nghĩa vụ phải tuân thủ của các bên trong thỏa thuận, hợp đồng có liên quan đến xử lý dữ liệu cá nhân theo quy định của Luật này và quy định khác của pháp luật có liên quan;
+b) Quyết định mục đích và phương tiện xử lý dữ liệu cá nhân tại các văn bản, thỏa thuận với chủ thể dữ liệu cá nhân, bảo đảm đúng nguyên t",1,Bắt đầu giữa câu ('a bên kiểm soát…'),1,
+pos05,luat-91-2025,23,cá nhân 1. Trách nhiệm của bên,struct,B/C,luat-91-2025:struct1000:a037:000,986,"Điều 37. Trách nhiệm của bên kiểm soát dữ liệu cá nhân, bên xử lý dữ liệu cá nhân, bên kiểm soát và xử lý dữ liệu cá nhân
+1. Trách nhiệm của bên kiểm soát dữ liệu cá nhân như sau:
+a) Nêu rõ trách nhiệm, quyền và nghĩa vụ phải tuân thủ của các bên trong thỏa thuận, hợp đồng có liên quan đến xử lý dữ liệu cá nhân theo quy định của Luật này và quy định khác của pháp luật có liên quan;
+b) Quyết định mục đích và phương tiện xử lý dữ liệu cá nhân tại các văn bản, thỏa thuận với chủ thể dữ liệu cá nhân, bảo đảm đúng nguyên tắc và nội dung theo quy định của Luật này;
+c) Thực hiện biện pháp quản lý, kỹ thuật phù hợp để bảo vệ dữ liệu cá nhân theo quy định của pháp luật, rà soát và cập nhật các biện pháp này khi cần thiết;
+d) Thông báo hành vi vi phạm quy định về bảo vệ dữ liệu cá nhân theo quy định tại Điều 23 của Luật này;
+đ) Lựa chọn bên xử lý dữ liệu cá nhân phù hợp để xử lý dữ liệu cá nhân;
+e) Bảo đảm các quyền của chủ thể dữ liệu cá nhân theo quy định tại Điều 4 của Luật này;",2,"Điều 37 trọn đầu, đủ tiêu đề",2,
+pos06,nd-13-2023,3,"về tài khoản, thông tin về tiề",fixed,A,nd-13-2023:fixed500-50:p003:002,500," quy định của pháp luật, thông tin về tài khoản, thông tin về tiền gửi, thông tin về tài sản gửi, thông tin về giao dịch, thông tin về tổ chức, cá nhân là bên bảo đảm tại tổ chức tín dụng, chi nhánh ngân hàng, tổ chức cung ứng dịch vụ trung gian thanh toán;
+i) Dữ liệu về vị trí của cá nhân được xác định qua dịch vụ định vị;
+k) Dữ liệu cá nhân khác được pháp luật quy định là đặc thù và cần có biện pháp bảo mật cần thiết.
+5. Bảo vệ dữ liệu cá nhân là hoạt động phòng ngừa, phát hiện, ngăn chặn, xử ",1,"Bắt đầu giữa đoạn liệt kê ('quy định của pháp luật, thông tin về tài khoản…'), thiếu câu dẫn",1,
+pos06,nd-13-2023,3,"về tài khoản, thông tin về tiề",struct,B/C,nd-13-2023:struct1000:a002:002,890,"[Điều 2. Giải thích từ ngữ (tiếp)]
+đ) Thông tin về thuộc tính vật lý, đặc điểm sinh học riêng của cá nhân;
+e) Thông tin về đời sống tình dục, xu hướng tình dục của cá nhân;
+g) Dữ liệu về tội phạm, hành vi phạm tội được thu thập, lưu trữ bởi các cơ quan thực thi pháp luật;
+h) Thông tin khách hàng của tổ chức tín dụng, chi nhánh ngân hàng nước ngoài, tổ chức cung ứng dịch vụ trung gian thanh toán, các tổ chức được phép khác, gồm: thông tin định danh khách hàng theo quy định của pháp luật, thông tin về tài khoản, thông tin về tiền gửi, thông tin về tài sản gửi, thông tin về giao dịch, thông tin về tổ chức, cá nhân là bên bảo đảm tại tổ chức tín dụng, chi nhánh ngân hàng, tổ chức cung ứng dịch vụ trung gian thanh toán;
+i) Dữ liệu về vị trí của cá nhân được xác định qua dịch vụ định vị;
+k) Dữ liệu cá nhân khác được pháp luật quy định là đặc thù và cần có biện pháp bảo mật cần thiết.",1,"Nhãn 'Điều 2 (tiếp)' nhưng bắt đầu bằng 'đ)…' của danh mục, thiếu câu dẫn 'dữ liệu cá nhân nhạy cảm gồm'",1,
+pos07,nd-13-2023,8,thể dữ liệu được phản đối Bên ,fixed,A,nd-13-2023:fixed500-50:p008:001,500,"khi có yêu cầu của chủ thể dữ liệu, với toàn bộ dữ liệu cá nhân mà chủ thể dữ liệu yêu cầu hạn chế, trừ trường hợp luật có quy định khác.
+7. Quyền cung cấp dữ liệu Chủ thể dữ liệu được yêu cầu Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân cung cấp cho bản thân dữ liệu cá nhân của mình, trừ trường hợp luật có quy định khác.
+8. Quyền phản đối xử lý dữ liệu
+a) Chủ thể dữ liệu được phản đối Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân xử lý dữ liệu cá",1,"Bắt đầu giữa câu ('khi có yêu cầu của chủ thể…'), thiếu chủ thể",1,
+pos07,nd-13-2023,8,thể dữ liệu được phản đối Bên ,struct,B/C,nd-13-2023:struct1000:a009:001,945,"[Điều 9. Quyền của chủ thể dữ liệu (tiếp)]
+b) Việc hạn chế xử lý dữ liệu được thực hiện trong 72 giờ sau khi có yêu cầu của chủ thể dữ liệu, với toàn bộ dữ liệu cá nhân mà chủ thể dữ liệu yêu cầu hạn chế, trừ trường hợp luật có quy định khác.
+7. Quyền cung cấp dữ liệu Chủ thể dữ liệu được yêu cầu Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân cung cấp cho bản thân dữ liệu cá nhân của mình, trừ trường hợp luật có quy định khác.
+8. Quyền phản đối xử lý dữ liệu
+a) Chủ thể dữ liệu được phản đối Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân xử lý dữ liệu cá nhân của mình nhằm ngăn chặn hoặc hạn chế tiết lộ dữ liệu cá nhân hoặc sử dụng cho mục đích quảng cáo, tiếp thị, trừ trường hợp luật có quy định khác;
+b) Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân thực hiện yêu cầu của chủ thể dữ liệu trong 72 giờ sau khi nhận được yêu cầu, trừ trường hợp luật có quy định khác.",1,"Bắt đầu bằng 'b)' của Điều 9, thiếu tiêu đề khoản 6",1,
+pos08,nd-13-2023,13,không thể cung cấp dữ liệu cá ,fixed,A,nd-13-2023:fixed500-50:p013:002,500,"hông báo và hướng dẫn tổ chức, cá nhân yêu cầu đến cơ quan có thẩm quyền hoặc thông báo rõ ràng việc không thể cung cấp dữ liệu cá nhân.
+9. Giải quyết yêu cầu cung cấp dữ liệu cá nhân Khi nhận được yêu cầu cung cấp dữ liệu cá nhân hợp lệ, Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân có trách nhiệm cung cấp dữ liệu cá nhân thông báo về thời hạn, địa điểm, hình thức cung cấp dữ liệu cá nhân; chi phí thực tế để in, sao, chụp, gửi thông tin qua dịch vụ bưu chính, fax (nếu có",1,Bắt đầu giữa câu ('hông báo và hướng dẫn…'),1,
+pos08,nd-13-2023,13,không thể cung cấp dữ liệu cá ,struct,B/C,nd-13-2023:struct1000:a014:003,1034,"[Điều 14. Cung cấp dữ liệu cá nhân (tiếp)]
+a) Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân có trách nhiệm tiếp nhận yêu cầu cung cấp dữ liệu cá nhân và theo dõi quá trình, danh sách cung cấp dữ liệu cá nhân theo yêu cầu;
+b) Trường hợp dữ liệu cá nhân được yêu cầu không thuộc thẩm quyền thì Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân nhận được yêu cầu phải thông báo và hướng dẫn tổ chức, cá nhân yêu cầu đến cơ quan có thẩm quyền hoặc thông báo rõ ràng việc không thể cung cấp dữ liệu cá nhân.
+9. Giải quyết yêu cầu cung cấp dữ liệu cá nhân Khi nhận được yêu cầu cung cấp dữ liệu cá nhân hợp lệ, Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân có trách nhiệm cung cấp dữ liệu cá nhân thông báo về thời hạn, địa điểm, hình thức cung cấp dữ liệu cá nhân; chi phí thực tế để in, sao, chụp, gửi thông tin qua dịch vụ bưu chính, fax (nếu có) và phương thức, thời hạn thanh toán; thực hiện việc cung cấp dữ liệu cá nhân theo trình tự, thủ tục quy định tại Điều này.",1,"Nhãn 'Điều 14 (tiếp)' nhưng bắt đầu bằng 'a)' của khoản 8, thiếu tiêu đề khoản",2,
+pos09,nd-13-2023,18,"vi, tổ chức, cá nhân, các loại",fixed,A,nd-13-2023:fixed500-50:p018:002,500,":
+a) Mô tả tính chất của việc vi phạm quy định bảo vệ dữ liệu cá nhân, bao gồm:
+thời gian, địa điểm, hành vi, tổ chức, cá nhân, các loại dữ liệu cá nhân và số lượng dữ liệu liên quan;
+b) Chi tiết liên lạc của nhân viên được giao nhiệm vụ bảo vệ dữ liệu hoặc tổ chức, cá nhân chịu trách nhiệm bảo vệ dữ liệu cá nhân;
+c) Mô tả các hậu quả, thiệt hại có thể xảy ra của việc vi phạm quy định bảo vệ dữ liệu cá nhân;
+d) Mô tả các biện pháp được đưa ra để giải quyết, giảm thiểu tác hại của hành vi vi phạm",1,"Bắt đầu giữa danh sách ('vi, tổ chức, cá nhân…'), thiếu câu dẫn",1,
+pos09,nd-13-2023,18,"vi, tổ chức, cá nhân, các loại",struct,B/C,nd-13-2023:struct1000:a023:000,887,"Điều 23. Thông báo vi phạm quy định về bảo vệ dữ liệu cá nhân
+1. Trường hợp phát hiện xảy ra vi phạm quy định bảo vệ dữ liệu cá nhân, Bên Kiểm soát dữ liệu cá nhân, Bên Kiểm soát và xử lý dữ liệu cá nhân thông báo cho Bộ Công an (Cục An ninh mạng và phòng, chống tội phạm sử dụng công nghệ cao) chậm nhất 72 giờ sau khi xảy ra hành vi vi phạm theo Mẫu số 03 tại Phụ lục của Nghị định này. Trường hợp thông báo sau 72 giờ thì phải kèm theo lý do thông báo chậm, muộn.
+2. Bên Xử lý dữ liệu cá nhân phải thông báo cho Bên Kiểm soát dữ liệu cá nhân một cách nhanh nhất có thể sau khi nhận thấy có sự vi phạm quy định về bảo vệ dữ liệu cá nhân.
+3. Nội dung thông báo vi phạm quy định về bảo vệ dữ liệu cá nhân:
+a) Mô tả tính chất của việc vi phạm quy định bảo vệ dữ liệu cá nhân, bao gồm:
+thời gian, địa điểm, hành vi, tổ chức, cá nhân, các loại dữ liệu cá nhân và số lượng dữ liệu liên quan;",2,"Điều 23 trọn đầu, khoản 1 đầy đủ",2,
+pos10,nd-13-2023,23,khoản 2 Điều 26 Nghị định này.,fixed,A,nd-13-2023:fixed500-50:p023:001,500,") Biện pháp do cơ quan quản lý nhà nước có thẩm quyền thực hiện theo quy định của Nghị định này và pháp luật có liên quan;
+d) Biện pháp điều tra, tố tụng do cơ quan nhà nước có thẩm quyền thực hiện;
+đ) Các biện pháp khác theo quy định của pháp luật.
+Điều 27. Bảo vệ dữ liệu cá nhân cơ bản
+1. Áp dụng các biện pháp được quy định tại khoản 2 Điều 26 Nghị định này.
+2. Xây dựng, ban hành các quy định về bảo vệ dữ liệu cá nhân, nêu rõ những việc cần thực hiện theo quy định của Nghị định này.
+3. Khuyến ",1,"Bắt đầu giữa câu ('khoản 2 Điều 26 Nghị định này.'), thiếu chủ thể",1,
+pos10,nd-13-2023,23,khoản 2 Điều 26 Nghị định này.,struct,B/C,nd-13-2023:struct1000:a027:000,572,"Điều 27. Bảo vệ dữ liệu cá nhân cơ bản
+1. Áp dụng các biện pháp được quy định tại khoản 2 Điều 26 Nghị định này.
+2. Xây dựng, ban hành các quy định về bảo vệ dữ liệu cá nhân, nêu rõ những việc cần thực hiện theo quy định của Nghị định này.
+3. Khuyến khích áp dụng các tiêu chuẩn bảo vệ dữ liệu cá nhân phù hợp với lĩnh vực, ngành nghề, hoạt động có liên quan tới xử lý dữ liệu cá nhân.
+4. Kiểm tra an ninh mạng đối với hệ thống và phương tiện, thiết bị phục vụ xử lý dữ liệu cá nhân trước khi xử lý, xóa không thể khôi phục được hoặc hủy các thiết bị chứa dữ liệu cá nhân.",2,"Điều 27 trọn đầu, đủ tiêu đề và khoản 1–4",2,

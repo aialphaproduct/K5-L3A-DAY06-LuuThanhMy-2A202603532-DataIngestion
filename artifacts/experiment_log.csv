@@ -1,4 +1,4 @@
 strategy,chunking,chunk_size,overlap,metadata,filter,vectorizer,hypothesis,dev_hit1,dev_hit3,test_hit1,test_hit3,notes
-A,,,,,,,,,,,,
-B,,,,,,,,,,,,
-C,,,,,,,,,,,,
+A,fixed,500,50,"source, page, document_id, document_type, year, section","none",intfloat/multilingual-e5-small (384 chiều; prefix passage/query),"Giả thuyết viết SAU khi có kết quả: cắt cố định không biết ranh giới Điều nên dễ cắt đứt ý",7/15,9/15,1/5,5/5,"290 chunk; dev Hit@3 thấp nhất; test Hit@1 thấp nhất (1/5)"
+B,structure,max 1000 ký tự,n/a,"source, page, pages, article, chapter, document_type, year, section","none",intfloat/multilingual-e5-small (384 chiều; prefix passage/query),"Giả thuyết viết SAU khi có kết quả: cắt theo Điều/khoản giữ trọn ý nên Hit@3 cao hơn A",8/15,12/15,4/5,5/5,"172 chunk; khác A chỉ ở chunking"
+C,structure,max 1000 ký tự,n/a,"Giống B","document_type / year / section khi câu hỏi có filter (giá trị do câu hỏi cung cấp trước khi truy xuất)",intfloat/multilingual-e5-small (384 chiều; prefix passage/query),"Giả thuyết viết SAU khi có kết quả: thêm filter giúp Hit@1 tăng trên câu có filter",9/15,12/15,5/5,5/5,"Chỉ khác B ở filter; cấu hình được chọn theo SELECTION.md"

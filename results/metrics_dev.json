@@ -1,0 +1,76 @@
+{
+  "generated_at": "2026-11-13T17:26:44+07:00",
+  "split": "dev",
+  "top_k": 3,
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "rows": [
+    {
+      "strategy": "A",
+      "split": "dev",
+      "n_questions": 15,
+      "hit_at_1": 7,
+      "hit_at_3": 9,
+      "hit_at_1_rate": 0.4667,
+      "hit_at_3_rate": 0.6,
+      "filter_questions": 4,
+      "filter_questions_hit_at_3": 2,
+      "filter_questions_top3_in_scope": 1,
+      "failure_types": {
+        "dung_tai_lieu_sai_trang": 3,
+        "sai_tai_lieu": 2,
+        "dung_trang_thieu_evidence": 1
+      },
+      "missed_question_ids": [
+        "q02",
+        "q04",
+        "q07",
+        "q10",
+        "q17",
+        "q18"
+      ],
+      "mean_query_ms": 31.51
+    },
+    {
+      "strategy": "B",
+      "split": "dev",
+      "n_questions": 15,
+      "hit_at_1": 8,
+      "hit_at_3": 12,
+      "hit_at_1_rate": 0.5333,
+      "hit_at_3_rate": 0.8,
+      "filter_questions": 4,
+      "filter_questions_hit_at_3": 4,
+      "filter_questions_top3_in_scope": 0,
+      "failure_types": {
+        "dung_tai_lieu_sai_trang": 3
+      },
+      "missed_question_ids": [
+        "q02",
+        "q07",
+        "q10"
+      ],
+      "mean_query_ms": 29.6
+    },
+    {
+      "strategy": "C",
+      "split": "dev",
+      "n_questions": 15,
+      "hit_at_1": 9,
+      "hit_at_3": 12,
+      "hit_at_1_rate": 0.6,
+      "hit_at_3_rate": 0.8,
+      "filter_questions": 4,
+      "filter_questions_hit_at_3": 4,
+      "filter_questions_top3_in_scope": 4,
+      "failure_types": {
+        "dung_tai_lieu_sai_trang": 3
+      },
+      "missed_question_ids": [
+        "q02",
+        "q07",
+        "q10"
+      ],
+      "mean_query_ms": 27.27
+    }
+  ]
+}

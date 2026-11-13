@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Day 06 · Data Ingestion Demo</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #1d2433; --muted: #5b6475;
+    --line: #dfe3ea; --accent: #2456d6; --ok: #1f7a4d; --bad: #b42318; --warn: #8a5a00;
+    --chip: #eef2ff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12151c; --card: #1b2030; --ink: #e8ebf2; --muted: #9aa3b5;
+      --line: #2c3448; --accent: #7aa2ff; --ok: #4ade80; --bad: #f87171; --warn: #fbbf24;
+      --chip: #232b44;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12151c; --card: #1b2030; --ink: #e8ebf2; --muted: #9aa3b5;
+    --line: #2c3448; --accent: #7aa2ff; --ok: #4ade80; --bad: #f87171; --warn: #fbbf24;
+    --chip: #232b44;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.5 system-ui, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); }
+  header { padding: 20px 16px 8px; max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0; }
+  nav { display: flex; gap: 8px; flex-wrap: wrap; padding: 12px 16px; max-width: 1100px; margin: 0 auto; }
+  nav button { border: 1px solid var(--line); background: var(--card); color: var(--ink); padding: 8px 14px; border-radius: 999px; cursor: pointer; font: inherit; }
+  nav button[aria-selected="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+  main { max-width: 1100px; margin: 0 auto; padding: 8px 16px 40px; }
+  section[hidden] { display: none; }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .stat { font-size: 26px; font-weight: 650; }
+  .label { color: var(--muted); font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14px; }
+  th { color: var(--muted); font-weight: 600; background: var(--chip); }
+  .scroll { overflow-x: auto; }
+  .chip { display: inline-block; padding: 2px 9px; border-radius: 999px; background: var(--chip); font-size: 13px; margin: 2px 4px 2px 0; }
+  .ok { color: var(--ok); font-weight: 600; }
+  .bad { color: var(--bad); font-weight: 600; }
+  .muted { color: var(--muted); }
+  .hit { border-left: 4px solid var(--ok); }
+  .miss { border-left: 4px solid var(--line); }
+  .hitcard { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin: 10px 0; white-space: pre-wrap; }
+  .hitcard .meta { color: var(--muted); font-size: 13px; margin-bottom: 6px; white-space: normal; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: end; margin: 8px 0 14px; }
+  label { display: flex; flex-direction: column; font-size: 13px; color: var(--muted); gap: 4px; }
+  select, input, textarea { font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--ink); }
+  textarea { width: 100%; min-height: 70px; }
+  button.primary { background: var(--accent); color: #fff; border: 0; padding: 9px 16px; border-radius: 8px; cursor: pointer; font: inherit; }
+  button.ghost { background: transparent; color: var(--accent); border: 1px solid var(--line); padding: 6px 10px; border-radius: 8px; cursor: pointer; font: inherit; }
+  .qlist { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .status { color: var(--muted); min-height: 22px; }
+  .error { color: var(--bad); white-space: pre-wrap; }
+  details { background: var(--card); border: 1px solid var(--line); border-radius: 10px; margin: 8px 0; padding: 10px 14px; }
+  summary { cursor: pointer; font-weight: 600; }
+  @media (max-width: 600px) { h1 { font-size: 19px; } .stat { font-size: 22px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Day 06 · Data Ingestion và Retrieval</h1>
+  <p class="sub">Luật 91/2025/QH15 và Nghị định 13/2023/NĐ-CP · so sánh 3 cấu hình trên cùng corpus, model và benchmark</p>
+</header>
+<nav role="tablist">
+  <button role="tab" data-tab="overview" aria-selected="true">Tổng quan</button>
+  <button role="tab" data-tab="search" aria-selected="false">Tra cứu thử</button>
+  <button role="tab" data-tab="traces" aria-selected="false">Câu hỏi và trace</button>
+  <button role="tab" data-tab="audit" aria-selected="false">Nhãn chấm tay</button>
+</nav>
+
+<main>
+  <!-- Tổng quan -->
+  <section id="overview">
+    <div class="grid" id="stats"></div>
+    <h2>Kết quả truy xuất</h2>
+    <p class="muted">Hit@1 và Evidence Hit@3 trên 15 câu dev và 5 câu test. Chọn cấu hình trên dev, theo tiêu chí đã chốt trước khi chạy test.</p>
+    <div class="scroll"><table id="results"></table></div>
+    <h2>Nguồn và cấu hình</h2>
+    <div class="scroll"><table id="sources"></table></div>
+    <p class="status" id="overview-status"></p>
+  </section>
+
+  <!-- Tra cứu thử -->
+  <section id="search" hidden>
+    <p class="muted">Gõ câu hỏi hoặc chọn một câu mẫu. Với cấu hình C, filter chỉ được áp khi anh chọn; đây là điều kiện do người dùng cung cấp, không lấy từ đáp án.</p>
+    <div class="qlist" id="samples"></div>
+    <textarea id="q" placeholder="Ví dụ: Mức phạt tối đa đối với mua bán dữ liệu cá nhân là bao nhiêu?"></textarea>
+    <div class="row">
+      <label>Cấu hình
+        <select id="strategy">
+          <option value="A">A · cố định 500 ký tự</option>
+          <option value="B">B · theo Điều/khoản</option>
+          <option value="C" selected>C · B + filter</option>
+        </select>
+      </label>
+      <label>Loại văn bản (filter)
+        <select id="f-document_type">
+          <option value="">không lọc</option>
+          <option value="luat">luat</option>
+          <option value="nghi_dinh">nghi_dinh</option>
+        </select>
+      </label>
+      <label>Năm (filter)
+        <select id="f-year">
+          <option value="">không lọc</option>
+          <option value="2025">2025</option>
+          <option value="2023">2023</option>
+        </select>
+      </label>
+      <label>Phạm vi (filter)
+        <select id="f-section">
+          <option value="">không lọc</option>
+          <option value="noi_dung">noi_dung</option>
+          <option value="phu_luc">phu_luc</option>
+        </select>
+      </label>
+      <button class="primary" id="go">Tra cứu</button>
+    </div>
+    <p class="status" id="search-status"></p>
+    <div id="hits"></div>
+  </section>
+
+  <!-- Câu hỏi và trace -->
+  <section id="traces" hidden>
+    <div class="row">
+      <label>Tập
+        <select id="split"><option value="dev">dev (15 câu)</option><option value="test">test (5 câu)</option></select>
+      </label>
+    </div>
+    <div class="scroll"><table id="trace-list"></table></div>
+    <div id="trace-detail"></div>
+  </section>
+
+  <!-- Nhãn chấm tay -->
+  <section id="audit" hidden>
+    <p class="muted">Nhãn do tác giả chấm và chốt. Thang điểm: coherence 0–2, grounding 0–2, metadata 0–1.</p>
+    <h2>Coherence (10 vị trí × 2 chỉ mục)</h2>
+    <div class="scroll"><table id="coherence"></table></div>
+    <h2>Metadata (45 bản ghi top-3)</h2>
+    <div id="metadata-summary"></div>
+    <h2>Grounding (5 câu test × 3 cấu hình)</h2>
+    <div class="scroll"><table id="grounding"></table></div>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+function el(tag, attrs = {}, children = []) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") node.className = v;
+    else if (k === "text") node.textContent = v;
+    else node.setAttribute(k, v);
+  }
+  for (const child of [].concat(children)) {
+    if (child == null) continue;
+    node.append(child instanceof Node ? child : document.createTextNode(String(child)));
+  }
+  return node;
+}
+
+function clear(node) { while (node.firstChild) node.removeChild(node.firstChild); }
+
+async function getJSON(url) {
+  const res = await fetch(url);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+  return data;
+}
+
+function fmtRate(n, total) { return `${n}/${total} (${Math.round((100 * n) / total)}%)`; }
+
+/* ---------- tabs ---------- */
+document.querySelectorAll("nav button").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("nav button").forEach((b) => b.setAttribute("aria-selected", String(b === btn)));
+    document.querySelectorAll("main > section").forEach((s) => (s.hidden = s.id !== btn.dataset.tab));
+    if (btn.dataset.tab === "traces") loadTraces();
+    if (btn.dataset.tab === "audit") loadAudit();
+  });
+});
+
+/* ---------- tổng quan ---------- */
+async function loadOverview() {
+  const status = $("overview-status");
+  try {
+    const o = await getJSON("/api/overview");
+    const totalIdx = Object.values(o.indexes);
+    const stats = $("stats"); clear(stats);
+    const tile = (value, label) => el("div", { class: "card" }, [el("div", { class: "stat", text: value }), el("div", { class: "label", text: label })]);
+    stats.append(
+      tile(String(o.content_pages_total), `trang nội dung (tối thiểu ${o.minimum_required})`),
+      tile(String(totalIdx.find((x) => x.config.chunking === "fixed")?.chunks ?? "–"), "chunk cố định (A)"),
+      tile(String(totalIdx.find((x) => x.config.chunking === "structure")?.chunks ?? "–"), "chunk theo Điều (B, C)"),
+      tile(`${o.cost_usd} USD`, "chi phí (model chạy local)"),
+    );
+
+    const results = $("results"); clear(results);
+    results.append(el("tr", {}, ["Cấu hình", "Tập", "Hit@1", "Evidence Hit@3"].map((t) => el("th", { text: t }))));
+    for (const split of [o.dev, o.test]) {
+      for (const row of split) {
+        const label = o.strategies[row.strategy].note;
+        results.append(el("tr", {}, [
+          el("td", {}, [el("b", { text: row.strategy }), document.createTextNode(" · " + label)]),
+          el("td", { text: row.split }),
+          el("td", { text: fmtRate(row.hit_at_1, row.n_questions) }),
+          el("td", { text: fmtRate(row.hit_at_3, row.n_questions) }),
+        ]));
+      }
+    }
+
+    const src = $("sources"); clear(src);
+    src.append(el("tr", {}, ["Văn bản", "Trang vật lý", "Trang nội dung", "Quyền sử dụng"].map((t) => el("th", { text: t }))));
+    for (const d of o.documents) {
+      src.append(el("tr", {}, [
+        el("td", { text: d.title }), el("td", { text: String(d.physical_pages) }),
+        el("td", { text: String(d.content_pages) }), el("td", { text: d.license }),
+      ]));
+    }
+    const note = el("p", { class: "muted", text: `Embedding: ${o.embedding_model} · Chọn cấu hình C vì có Hit@3 dev cao nhất cùng B (12/15) và Hit@1 dev cao hơn (9/15 so với 8/15).` });
+    src.parentElement.append(note);
+    status.textContent = "";
+  } catch (e) {
+    status.append(el("span", { class: "error", text: `Không tải được dữ liệu: ${e.message}` }));
+  }
+}
+
+/* ---------- tra cứu thử ---------- */
+async function loadSamples() {
+  const qs = await getJSON("/api/questions");
+  const box = $("samples"); clear(box);
+  for (const q of qs.filter((x) => x.split === "test")) {
+    const btn = el("button", { class: "ghost", text: `${q.id} · ${q.question.slice(0, 48)}…` });
+    btn.addEventListener("click", () => {
+      $("q").value = q.question;
+      $("strategy").value = "C";
+      for (const key of ["document_type", "year", "section"]) $("f-" + key).value = "";
+      if (q.filter) for (const [k, v] of Object.entries(q.filter)) $("f-" + k).value = String(v);
+      $("search-status").textContent = q.filter_context ? `Ngữ cảnh filter: ${q.filter_context}` : "";
+    });
+    box.append(btn);
+  }
+}
+
+async function runSearch() {
+  const q = $("q").value.trim();
+  const status = $("search-status"); const hits = $("hits");
+  clear(hits);
+  if (!q) { status.textContent = "Nhập câu hỏi trước."; return; }
+  status.textContent = "Đang tra cứu (lần đầu có thể lâu vì tải model)…";
+  const params = new URLSearchParams({ q, strategy: $("strategy").value });
+  for (const key of ["document_type", "year", "section"]) {
+    const v = $("f-" + key).value;
+    if (v) params.set(key, v);
+  }
+  try {
+    const r = await getJSON("/api/search?" + params.toString());
+    const applied = r.filter_applied ? `filter đã áp: ${JSON.stringify(r.filter_applied)}` : "không áp filter";
+    status.textContent = `Cấu hình ${r.strategy} (${r.index}) · ${applied}`;
+    for (const h of r.hits) {
+      hits.append(el("div", { class: "hitcard" }, [
+        el("div", { class: "meta" }, [
+          el("span", { class: "chip", text: `#${h.rank}` }),
+          el("span", { class: "chip", text: `score ${h.score}` }),
+          el("span", { class: "chip", text: h.document_id }),
+          el("span", { class: "chip", text: `trang ${h.pages}` }),
+          h.chapter ? el("span", { class: "chip", text: `Chương ${h.chapter}` }) : null,
+          h.article ? el("span", { class: "chip", text: `Điều ${h.article}` }) : null,
+        ]),
+        document.createTextNode(h.text),
+      ]));
+    }
+  } catch (e) {
+    status.textContent = "";
+    hits.append(el("div", { class: "error", text: e.message }));
+  }
+}
+$("go").addEventListener("click", runSearch);
+
+/* ---------- trace ---------- */
+async function loadTraces() {
+  const split = $("split").value;
+  const rows = await getJSON("/api/traces?split=" + split);
+  const byQuestion = {};
+  for (const r of rows) (byQuestion[r.question_id] ??= {})[r.strategy] = r;
+  const table = $("trace-list"); clear(table);
+  table.append(el("tr", {}, ["Câu", "Câu hỏi", "A", "B", "C", "Filter"].map((t) => el("th", { text: t }))));
+  for (const [qid, bucket] of Object.entries(byQuestion)) {
+    const any = bucket.A || bucket.B || bucket.C;
+    const cell = (s) => {
+      const r = bucket[s];
+      if (!r) return el("td", { text: "–" });
+      return el("td", {}, [el("span", { class: r.hit_at_3 ? "ok" : "bad", text: r.hit_at_3 ? "✓ Hit@3" : "✗ trượt" }),
+        document.createTextNode(r.hit_at_1 ? "  (Hit@1 ✓)" : "")]);
+    };
+    const row = el("tr", { style: "cursor:pointer" }, [
+      el("td", { text: qid }), el("td", { text: any.question }), cell("A"), cell("B"), cell("C"),
+      el("td", { text: any.filter_requested ? JSON.stringify(any.filter_requested) : "–" }),
+    ]);
+    row.addEventListener("click", () => showTrace(qid, bucket));
+    table.append(row);
+  }
+  clear($("trace-detail"));
+}
+
+function showTrace(qid, bucket) {
+  const box = $("trace-detail"); clear(box);
+  const any = bucket.A || bucket.B || bucket.C;
+  box.append(el("h2", { text: `${qid}: ${any.question}` }));
+  box.append(el("p", {}, [el("b", { text: "Đáp án mẫu: " }), document.createTextNode(any.expected_answer)]));
+  box.append(el("p", { class: "muted", text: "Gold: " + any.gold.map((g) => `${g.gold_source_id} trang ${g.gold_page}`).join("; ") }));
+  for (const s of ["A", "B", "C"]) {
+    const r = bucket[s]; if (!r) continue;
+    const section = el("details", { open: s === "C" }, [
+      el("summary", { text: `Cấu hình ${s} · ${r.hit_at_3 ? "có bằng chứng trong top-3" : "không có bằng chứng trong top-3"}${r.failure_type ? " · lỗi: " + r.failure_type : ""}` }),
+    ]);
+    if (r.filter_applied) section.append(el("p", { class: "muted", text: "Filter đã áp: " + JSON.stringify(r.filter_applied) }));
+    for (const h of r.top_k) {
+      section.append(el("div", { class: "hitcard " + (h.is_hit ? "hit" : "miss") }, [
+        el("div", { class: "meta" }, [
+          el("span", { class: "chip", text: `#${h.rank}` }),
+          el("span", { class: "chip", text: `score ${h.score}` }),
+          el("span", { class: "chip", text: `${h.document_id} · trang ${h.pages}` }),
+          h.is_hit ? el("span", { class: "ok", text: "  ✓ chứa bằng chứng gold" }) : el("span", { class: "muted", text: "  không khớp gold" }),
+        ]),
+        document.createTextNode(h.text),
+      ]));
+    }
+    box.append(section);
+  }
+}
+
+/* ---------- nhãn audit ---------- */
+async function loadAudit() {
+  const a = await getJSON("/api/audit");
+  const coh = $("coherence"); clear(coh);
+  coh.append(el("tr", {}, ["Vị trí", "Văn bản · trang", "Chỉ mục", "Điểm"].map((t) => el("th", { text: t }))));
+  for (const c of a.coherence) {
+    coh.append(el("tr", {}, [
+      el("td", { text: c.position }), el("td", { text: `${c.document_id} · trang ${c.page}` }),
+      el("td", { text: c.index === "fixed" ? "A (cố định)" : "B/C (theo Điều)" }),
+      el("td", { text: c.score }),
+    ]));
+  }
+  const meta = $("metadata-summary"); clear(meta);
+  const okCount = a.metadata.filter((m) => m.score === "1").length;
+  meta.append(el("p", { text: `Đúng ${okCount}/${a.metadata.length} bản ghi. Xem chi tiết trong results/audit/metadata_labels.csv.` }));
+  const gr = $("grounding"); clear(gr);
+  gr.append(el("tr", {}, ["Câu", "Cấu hình", "Câu hỏi", "Điểm"].map((t) => el("th", { text: t }))));
+  for (const g of a.grounding) {
+    gr.append(el("tr", {}, [el("td", { text: g.question_id }), el("td", { text: g.strategy }), el("td", { text: g.question }), el("td", { text: g.score })]));
+  }
+}
+
+$("split").addEventListener("change", loadTraces);
+loadOverview();
+loadSamples();
+</script>
+</body>
+</html>

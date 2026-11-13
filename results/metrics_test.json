@@ -1,0 +1,53 @@
+{
+  "generated_at": "2026-11-13T17:27:08+07:00",
+  "split": "test",
+  "top_k": 3,
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "rows": [
+    {
+      "strategy": "A",
+      "split": "test",
+      "n_questions": 5,
+      "hit_at_1": 1,
+      "hit_at_3": 5,
+      "hit_at_1_rate": 0.2,
+      "hit_at_3_rate": 1.0,
+      "filter_questions": 2,
+      "filter_questions_hit_at_3": 2,
+      "filter_questions_top3_in_scope": 0,
+      "failure_types": {},
+      "missed_question_ids": [],
+      "mean_query_ms": 37.84
+    },
+    {
+      "strategy": "B",
+      "split": "test",
+      "n_questions": 5,
+      "hit_at_1": 4,
+      "hit_at_3": 5,
+      "hit_at_1_rate": 0.8,
+      "hit_at_3_rate": 1.0,
+      "filter_questions": 2,
+      "filter_questions_hit_at_3": 2,
+      "filter_questions_top3_in_scope": 0,
+      "failure_types": {},
+      "missed_question_ids": [],
+      "mean_query_ms": 35.25
+    },
+    {
+      "strategy": "C",
+      "split": "test",
+      "n_questions": 5,
+      "hit_at_1": 5,
+      "hit_at_3": 5,
+      "hit_at_1_rate": 1.0,
+      "hit_at_3_rate": 1.0,
+      "filter_questions": 2,
+      "filter_questions_hit_at_3": 2,
+      "filter_questions_top3_in_scope": 2,
+      "failure_types": {},
+      "missed_question_ids": [],
+      "mean_query_ms": 25.85
+    }
+  ]
+}

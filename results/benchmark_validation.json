@@ -1,0 +1,345 @@
+{
+  "summary": {
+    "generated_at": "2026-11-13T17:26:26+07:00",
+    "questions": 20,
+    "split_counts": {
+      "dev": 15,
+      "test": 5
+    },
+    "filter_questions": {
+      "dev": 4,
+      "test": 2
+    },
+    "all_evidence_verified": true,
+    "problems": []
+  },
+  "questions": [
+    {
+      "id": "q01",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "luat-91-2025",
+          "gold_page": 6,
+          "evidence_quote": "Mức phạt tiền tối đa trong xử phạt vi phạm hành chính đối với hành vi mua, bán dữ liệu cá nhân là 10 lần khoản thu có được từ hành vi vi phạm",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "luat-91-2025",
+          "gold_page": 7,
+          "evidence_quote": "Sự im lặng hoặc không phản hồi không được coi là sự đồng ý.",
+          "page_exists": true,
+          "evidence_found": true
+        },
+        {
+          "gold_source_id": "nd-13-2023",
+          "gold_page": 10,
+          "evidence_quote": "Sự im lặng hoặc không phản hồi của chủ thể dữ liệu không được coi là sự đồng ý.",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "split": "test",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "luat-91-2025",
+          "gold_page": 6,
+          "evidence_quote": "là 5% doanh thu của năm trước liền kề của tổ chức đó; trường hợp không có doanh thu của năm trước liền kề hoặc mức phạt tính theo doanh thu thấp hơn mức phạt tiền tối đa theo quy định tại khoản 5 Điều này thì áp dụng mức phạt tiền theo quy định tại khoản 5 Điều này",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "luat-91-2025",
+          "gold_page": 1,
+          "evidence_quote": "Dữ liệu cá nhân sau khi khử nhận dạng không còn là dữ liệu cá nhân.",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "luat-91-2025",
+          "gold_page": 13,
+          "evidence_quote": "Cơ quan, tổ chức lưu trữ dữ liệu cá nhân của người lao động thuộc cơ quan, tổ chức đó trên dịch vụ điện toán đám mây",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "split": "test",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "luat-91-2025",
+          "gold_page": 14,
+          "evidence_quote": "được cập nhật định kỳ 06 tháng khi có sự thay đổi",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "luat-91-2025",
+          "gold_page": 25,
+          "evidence_quote": "Hộ kinh doanh, doanh nghiệp siêu nhỏ không phải thực hiện quy định tại Điều 21, Điều 22 và khoản 2 Điều 33 của Luật này, trừ hộ kinh doanh, doanh nghiệp siêu nhỏ kinh doanh dịch vụ xử lý dữ liệu cá nhân",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "luat-91-2025",
+          "gold_page": 16,
+          "evidence_quote": "Phải xóa, hủy thông tin đã cung cấp của người dự tuyển trong trường hợp không tuyển dụng, trừ trường hợp có thỏa thuận khác với người đã dự tuyển",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "luat-91-2025",
+          "gold_page": 19,
+          "evidence_quote": "Không nghe lén, nghe trộm hoặc ghi âm cuộc gọi và đọc tin nhắn văn bản khi không có sự đồng ý của chủ thể dữ liệu cá nhân",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "luat-91-2025",
+          "gold_page": 25,
+          "evidence_quote": "thì tiếp tục thực hiện, không phải xin đồng ý lại hoặc thỏa thuận lại",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "nd-13-2023",
+          "gold_page": 24,
+          "evidence_quote": "Cơ quan chuyên trách bảo vệ dữ liệu cá nhân là Cục An ninh mạng và phòng, chống tội phạm sử dụng công nghệ cao - Bộ Công an",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "nd-13-2023",
+          "gold_page": 16,
+          "evidence_quote": "trường hợp không có những người này thì phải được sự đồng ý của cha, mẹ của người bị tuyên bố mất tích, người đã chết",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "nd-13-2023",
+          "gold_page": 15,
+          "evidence_quote": "Việc xóa dữ liệu được thực hiện trong 72 giờ sau khi có yêu cầu của chủ thể dữ liệu",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "split": "test",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "nd-13-2023",
+          "gold_page": 17,
+          "evidence_quote": "phải xác minh tuổi của trẻ em trước khi xử lý dữ liệu cá nhân của trẻ em",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "split": "test",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "luat-91-2025",
+          "gold_page": 24,
+          "evidence_quote": "Luật này có hiệu lực thi hành từ ngày 01 tháng 01 năm 2026.",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "split": "test",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "nd-13-2023",
+          "gold_page": 29,
+          "evidence_quote": "Nghị định này có hiệu lực thi hành từ ngày 01 tháng 7 năm 2023.",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "nd-13-2023",
+          "gold_page": 18,
+          "evidence_quote": "thông báo cho Bộ Công an (Cục An ninh mạng và phòng, chống tội phạm sử dụng công nghệ cao) chậm nhất 72 giờ sau khi xảy ra hành vi vi phạm",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "nd-13-2023",
+          "gold_page": 9,
+          "evidence_quote": "bằng văn bản, giọng nói, đánh dấu vào ô đồng ý, cú pháp đồng ý qua tin nhắn",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "luat-91-2025",
+          "gold_page": 13,
+          "evidence_quote": "gửi 01 bản chính cho cơ quan chuyên trách bảo vệ dữ liệu cá nhân trong thời gian 60 ngày kể từ ngày đầu tiên xử lý dữ liệu cá nhân",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "split": "dev",
+      "ok": true,
+      "filter_value_exists": true,
+      "evidence_copied_into_question": false,
+      "gold_checks": [
+        {
+          "gold_source_id": "nd-13-2023",
+          "gold_page": 30,
+          "evidence_quote": "Mẫu số 03 Thông báo vi phạm quy định về bảo vệ dữ liệu cá nhân",
+          "page_exists": true,
+          "evidence_found": true
+        }
+      ]
+    }
+  ]
+}

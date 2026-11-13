@@ -1,0 +1,87 @@
+{
+  "generated_at": "2026-11-13T17:36:21+07:00",
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "dimensions": 384,
+  "max_tokens": 512,
+  "device": "cpu",
+  "document_prefix": "passage: ",
+  "query_prefix": "query: ",
+  "vector_store": "chromadb PersistentClient",
+  "distance": "cosine (hnsw:space=cosine, tìm kiếm xấp xỉ HNSW mặc định)",
+  "versions": {
+    "python": "3.13.4",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "chromadb": "1.5.9",
+    "sentence-transformers": "6.3.0",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "PyMuPDF": "2.1",
+    "numpy": "2.5.4"
+  },
+  "cost_usd": 0.0,
+  "indexes": {
+    "fixed": {
+      "config": {
+        "chunking": "fixed",
+        "size": 500,
+        "overlap": 50
+      },
+      "collection": "day06_fixed",
+      "chunk_count": 290,
+      "chars_total": 130547,
+      "tokens_total": 34218,
+      "chunk_chars": {
+        "min": 51,
+        "p50": 500,
+        "mean": 450.2,
+        "p95": 500,
+        "max": 500
+      },
+      "chunks_over_token_limit": 0,
+      "seconds": {
+        "chunk": 0.001,
+        "embed": 15.466,
+        "upsert": 0.494,
+        "total": 15.961
+      },
+      "upsert": {
+        "before": 290,
+        "after": 290,
+        "written": 290,
+        "new": 0,
+        "deleted_obsolete": 0
+      }
+    },
+    "struct": {
+      "config": {
+        "chunking": "structure",
+        "max_size": 1000
+      },
+      "collection": "day06_struct",
+      "chunk_count": 172,
+      "chars_total": 123545,
+      "tokens_total": 32108,
+      "chunk_chars": {
+        "min": 135,
+        "p50": 826,
+        "mean": 718.3,
+        "p95": 1017,
+        "max": 1074
+      },
+      "chunks_over_token_limit": 0,
+      "seconds": {
+        "chunk": 0.004,
+        "embed": 14.57,
+        "upsert": 0.357,
+        "total": 14.931
+      },
+      "upsert": {
+        "before": 172,
+        "after": 172,
+        "written": 172,
+        "new": 0,
+        "deleted_obsolete": 0
+      }
+    }
+  }
+}

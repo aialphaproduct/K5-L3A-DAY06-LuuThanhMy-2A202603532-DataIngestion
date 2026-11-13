@@ -1,0 +1,14 @@
+{
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "chroma_dir": "chroma_db",
+  "top_k": 3,
+  "indexes": {
+    "fixed": {"chunking": "fixed", "size": 500, "overlap": 50},
+    "struct": {"chunking": "structure", "max_size": 1000}
+  },
+  "strategies": {
+    "A": {"index": "fixed", "use_filter": false, "note": "Cửa sổ 500 ký tự, chồng lấn 50, cắt trong từng trang; không lọc"},
+    "B": {"index": "struct", "use_filter": false, "note": "Theo Điều/khoản, tối đa 1000 ký tự, nối đoạn qua trang; không lọc"},
+    "C": {"index": "struct", "use_filter": true, "note": "Dùng chung chỉ mục với B; chỉ thêm lọc metadata khi câu hỏi có filter"}
+  }
+}

@@ -1,0 +1,10 @@
+C:\CV\Claude\K5-L3A-Day06-LuuThanhMy-2A202603532-DataIngestionEngineering\starter\.venv\Lib\site-packages\fitz\__init__.py:17: FutureWarning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+  warnings.warn(
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Đọc 62 trang vật lý, 62 trang dùng được, 54 trang nội dung được tính (0.11s)
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 2410.01it/s]
+C:\CV\Claude\K5-L3A-Day06-LuuThanhMy-2A202603532-DataIngestionEngineering\starter\src\embeddings.py:33: FutureWarning: The `get_sentence_embedding_dimension` method has been renamed to `get_embedding_dimension`.
+  self.dimensions = int(self.model.get_sentence_embedding_dimension())
+[fixed] 290 chunk | embed 15.5s | upsert {'before': 290, 'after': 290, 'written': 290, 'new': 0, 'deleted_obsolete': 0}
+[struct] 172 chunk | embed 14.6s | upsert {'before': 172, 'after': 172, 'written': 172, 'new': 0, 'deleted_obsolete': 0}
+exit=0
